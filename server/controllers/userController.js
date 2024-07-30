@@ -16,7 +16,6 @@ const getInfoUser = async(req, res)=>{
     } catch (error) {
         res.status(400).json("не удалось получить данные пользователя")  
     }
-    // const idUser  = req.id
 }
 
 
