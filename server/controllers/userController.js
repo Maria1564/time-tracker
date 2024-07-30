@@ -6,13 +6,12 @@ const jwt = require("jsonwebtoken")
 //получение данных о пользователе
 const getInfoUser = async(req, res)=>{
     try {
-        console.log(req.login)
-        const dataUser = await db.query(`SELECT login, email FROM Users WHERE login = $1 `, 
-            [req.login])
+        console.log(req.idUser)
+        const dataUser = await db.query(`SELECT id, login, email FROM Users WHERE id = $1 `, 
+            [req.idUser])
         
-        const {hashpassword, ...infoUser} = dataUser.rows[0]
 
-        res.json(infoUser)
+        res.json(dataUser.rows[0])
     } catch (error) {
         res.status(400).json("не удалось получить данные пользователя")  
     }
@@ -75,6 +74,7 @@ const login = async(req, res) => {
 
         //Генерация токена
         const token = jwt.sign({
+            idUser: infoUser.id,
             login: infoUser.login
         },
         

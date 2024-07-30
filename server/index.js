@@ -21,4 +21,16 @@ app.post("/auth/login", loginValidation, userController.login)
 //получение палитры цветов
 app.get("/colors", colorsController.getAllColors)
 
+//TODO: запросы (создание, редактирование, удаление активности)
+//активности (действия) 
+
+
+//TODO: получения данных
+//данные обо всех активностях
+
+
+//TODO: получения данных об одной активности
+//данные одной активности
+
+
 app.listen(PORT, ()=> console.log("start server..."))
