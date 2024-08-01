@@ -5,6 +5,7 @@ const PORT = 5000
 
 const userController = require("./controllers/userController.js")
 const colorsController = require("./controllers/colorsController")
+const activitiesController = require("./controllers/activitiesController.js")
 
 const {regValidation, loginValidation} = require("./middleware/validationAuth.js")
 const checkAuth = require("./middleware/checkAuth.js")
@@ -21,9 +22,11 @@ app.post("/auth/login", loginValidation, userController.login)
 //получение палитры цветов
 app.get("/colors", colorsController.getAllColors)
 
-//TODO: запросы (создание, редактирование, удаление активности)
 //активности (действия) 
-
+app.get("/activities", checkAuth, activitiesController.getActivities) 
+app.post("/activities", checkAuth, activitiesController.createActivity)
+app.patch("/activities", checkAuth, activitiesController.updateActivity)
+app.delete("/activities/:id",checkAuth, activitiesController.deleteActivity)
 
 //TODO: получения данных
 //данные обо всех активностях

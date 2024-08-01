@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken")
 //получение данных о пользователе
 const getInfoUser = async(req, res)=>{
     try {
-        console.log(req.idUser)
         const dataUser = await db.query(`SELECT id, login, email FROM Users WHERE id = $1 `, 
             [req.idUser])
         
