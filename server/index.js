@@ -6,6 +6,7 @@ const PORT = 5000
 const userController = require("./controllers/userController.js")
 const colorsController = require("./controllers/colorsController")
 const activitiesController = require("./controllers/activitiesController.js")
+const listActivitiesController = require("./controllers/listActivitiesController.js")
 
 const {regValidation, loginValidation} = require("./middleware/validationAuth.js")
 const checkAuth = require("./middleware/checkAuth.js")
@@ -28,12 +29,12 @@ app.post("/activities", checkAuth, activitiesController.createActivity)
 app.patch("/activities", checkAuth, activitiesController.updateActivity)
 app.delete("/activities/:id",checkAuth, activitiesController.deleteActivity)
 
-//TODO: получения данных
 //данные обо всех активностях
-
+app.get("/activity-log", checkAuth, listActivitiesController.getLogUserActivities)
+app.post("/activity-log", checkAuth, listActivitiesController.saveActivityData)
 
 //TODO: получения данных об одной активности
 //данные одной активности
-
+// app.get("activity/history/:idAct")
 
 app.listen(PORT, ()=> console.log("start server..."))
