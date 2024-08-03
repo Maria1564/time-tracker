@@ -22,11 +22,11 @@ const saveActivityData = async(req, res)=>{
 const getLogUserActivities = async(req, res) => {
     try{
         const logActivitiesDay = await db.query(
-    `SELECT userActivities.nameActivity, userActivities.idColor,
+    `SELECT userActivities.nameActivity, colors.hexcode,
 	FLOOR(SUM(EXTRACT(EPOCH FROM (endTime - startTime)) / 60)) AS minutesDiff
-	FROM activitytracking, userActivities
-	WHERE activitytracking.idActivity = userActivities.id and activitytracking.idUser = $1 and DATE(startTime) = $2 
-	GROUP BY userActivities.nameActivity, userActivities.idColor`,
+	FROM activitytracking, userActivities, colors
+	WHERE activitytracking.idActivity = userActivities.id and userActivities.idColor = colors.id and activitytracking.idUser = $1 and DATE(startTime) = $2 
+	GROUP BY userActivities.nameActivity, colors.hexcode`,
             [req.idUser, req.query.date])
 
             res.json(logActivitiesDay.rows)
@@ -38,8 +38,29 @@ const getLogUserActivities = async(req, res) => {
     }
 }
 
+//получение истории выбранной активности
+const getHistoryActivity = async(req, res) => {
+    try{
+        const historyActivity = await db.query(`
+    SELECT activityTracking.id, userActivities.nameActivity, colors.hexcode, 
+    TO_CHAR(starttime, 'YYYY-MM-DD HH24:MI:SS') AS starttime, 
+    TO_CHAR(endtime, 'YYYY-MM-DD HH24:MI:SS') AS endtime 
+	FROM activityTracking, userActivities, colors
+	WHERE activityTracking.idActivity = userActivities.id and userActivities.idColor = colors.id and
+	activityTracking.idUser = $1 and activityTracking.idActivity = $2 order by starttime desc `, [req.idUser, req.params.idAct])
+ console.log(historyActivity.rows[0].starttime)
+    res.json(historyActivity.rows)
+    }catch(err){
+        console.log(err)
+        res.status(400).json({
+            message: "Не удалось получить историю выбранной активности"
+        })
+    }
+}
+
 
 module.exports = {
     saveActivityData,
-    getLogUserActivities
+    getLogUserActivities,
+    getHistoryActivity
 }

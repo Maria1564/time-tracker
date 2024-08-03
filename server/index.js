@@ -33,8 +33,7 @@ app.delete("/activities/:id",checkAuth, activitiesController.deleteActivity)
 app.get("/activity-log", checkAuth, listActivitiesController.getLogUserActivities)
 app.post("/activity-log", checkAuth, listActivitiesController.saveActivityData)
 
-//TODO: получения данных об одной активности
 //данные одной активности
-// app.get("activity/history/:idAct")
+app.get("/activity/history/:idAct", checkAuth, listActivitiesController.getHistoryActivity)
 
 app.listen(PORT, ()=> console.log("start server..."))
