@@ -82,6 +82,9 @@ export const userSlice = createSlice({
             .addCase(registerUser.pending,  (state)=>{
                 state.error = null
             })
+            .addCase(registerUser.fulfilled, (state, action)=> {
+                state.infoUser = action.payload
+            })
             .addCase(getInfoUser.pending,  (state)=>{
                 state.error = null
             })

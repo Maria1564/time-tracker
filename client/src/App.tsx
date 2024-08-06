@@ -1,15 +1,19 @@
 
-import s from "./App.module.scss"
-
+import { Routes, Route } from "react-router-dom"
+import RegistrationPage from "./pages/RegistrationPage/RegistrationPage"
 
 
 const App = () => {
   
   return (
     <>
-    <div className={s.box}>
-      <p className={s.text}>Hi</p>
-    </div>
+      <Routes>
+        <Route path="/reg" element={<RegistrationPage/>}/>
+        {/* <Route path="/login" element={<FormReLogin/>}/>
+        <Route path="/" element={<Layout />}>
+        
+        <Route/> */}
+      </Routes>
     </>
   )
 }
