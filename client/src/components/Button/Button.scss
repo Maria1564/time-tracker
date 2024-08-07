@@ -1,0 +1,48 @@
+.btn {
+    font-family: inherit;
+    border: none;
+    padding: 20px 45px;
+    border-radius: 16px;
+    background-color: var(--color-primary);
+    color: var(--color-hover);
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.5s, transform 0.2s;
+
+    &:hover {
+        background-color: #5c19c2;
+    }
+
+    &:active {
+        transform:scale(.9);
+    }
+
+    
+    &:disabled {
+       background-color: #bbb5d4;
+       cursor: auto;
+       
+       &:active{
+            transform: none;
+       }
+    }
+}
+
+.btn_lite {
+    background-color: var(--color-hover);
+    color: var(--color-primary);
+
+    &:hover {
+        background-color: #d9cfe7;
+    }
+
+    &:disabled {
+        background-color: #bbb5d4;
+        cursor: auto;
+        color: var(--color-hover);
+        
+        &:active{
+             transform: none;
+        }
+     }
+}
