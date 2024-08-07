@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
                     <Input type="text" name="login" id="login" placeholder='логин' required minLength={3} maxLength={20}/>
                     <Input type="password" name="password" id="password" placeholder='пароль' required minLength={5}/>
                     <Button type="submit">Войти</Button>
-                    {error && <h4>{error}</h4>}
+                    {error && <h4 className='error'>{error}</h4>}
                 </form>
                 <Link to="/reg">Регистрация</Link>
             </div>

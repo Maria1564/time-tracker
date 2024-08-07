@@ -53,7 +53,7 @@ export const getInfoUser = createAsyncThunk<IUser, undefined, {rejectValue: stri
             console.log("data getInf >> ", data)
             return data
         } catch (err) {
-            return rejectWithValue("Не удалось войти")
+            return rejectWithValue("")
         }
     }
 
