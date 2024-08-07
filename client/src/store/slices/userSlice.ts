@@ -5,7 +5,8 @@ import axios from "../../axios";
 type UserState = {
     infoUser: IUser | null,
     isAuth: boolean,
-    error: string| null
+    error: string| null,
+    loading: boolean
 }
 
 //авторизация
@@ -63,7 +64,8 @@ export const getInfoUser = createAsyncThunk<IUser, undefined, {rejectValue: stri
 const initialState: UserState = {
     infoUser: null,
     isAuth: false,
-    error: null
+    error: null,
+    loading: true
 }
 
 export const userSlice = createSlice({
@@ -91,13 +93,17 @@ export const userSlice = createSlice({
             })
             .addCase(getInfoUser.pending,  (state)=>{
                 state.error = null
+                state.loading = true
             })
             .addCase(getInfoUser.fulfilled, (state, action)=> {
                 state.infoUser = action.payload
+                state.isAuth = true
+                state.loading = false
             })
             .addMatcher(logError, (state, action: PayloadAction<string>)=>{
                 state.error = action.payload
                 state.isAuth = false
+                state.loading = false
             })
     }
 
