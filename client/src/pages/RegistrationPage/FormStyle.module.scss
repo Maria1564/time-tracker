@@ -1,0 +1,45 @@
+.reg_pg {
+    font-family: "Mulish", sans-serif;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../../assets/bg.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+.wrapper {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    width: 70%;
+    min-height: 200px;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    box-shadow: 4px 4px 14px 4px #d3c4ea;
+
+    & form {
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+
+        Button {
+            margin-top: 20px;
+        }
+    }
+
+    & > a {
+        color: var(--color-primary);
+        font-weight: 500;
+        margin-top: 10px;
+        font-size: 18px;
+    }
+}

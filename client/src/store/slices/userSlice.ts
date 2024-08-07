@@ -9,7 +9,7 @@ type UserState = {
 }
 
 //авторизация
-export const loginUser = createAsyncThunk<IUser, {email: string, password: string}, {rejectValue: string}> (
+export const loginUser = createAsyncThunk<IUser, {login: string, password: string}, {rejectValue: string}> (
     "user/loginUser",
     async(valuesForm, {rejectWithValue}) => {
         try {
@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk<IUser, {email: string, password: strin
 
             return otherInfo
         } catch (error) {
-            return rejectWithValue("Не удалось войти в учётный запись")
+            return rejectWithValue("Неверный логин или пароль")
         }
     }
 )
@@ -44,7 +44,7 @@ export const registerUser = createAsyncThunk<IUser, {login: string, email: strin
 )
 
 //информация о пользователе
-export const getInfoUser = createAsyncThunk<IUser, null, {rejectValue: string}>(
+export const getInfoUser = createAsyncThunk<IUser, undefined, {rejectValue: string}>(
     "user/getInfoUser",
     async(_, {rejectWithValue})=>{
         try {
@@ -69,7 +69,11 @@ const initialState: UserState = {
 export const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        clearError: (state, action: PayloadAction<null>)=>{
+            state.error = action.payload
+        }
+    },
     extraReducers: (builder)=> {
         builder
             .addCase(loginUser.pending, (state)=>{
@@ -88,7 +92,9 @@ export const userSlice = createSlice({
             .addCase(getInfoUser.pending,  (state)=>{
                 state.error = null
             })
-
+            .addCase(getInfoUser.fulfilled, (state, action)=> {
+                state.infoUser = action.payload
+            })
             .addMatcher(logError, (state, action: PayloadAction<string>)=>{
                 state.error = action.payload
                 state.isAuth = false
@@ -102,3 +108,4 @@ const logError = (action: UnknownAction)=>{
 }
 
 export default userSlice.reducer
+export const {clearError} = userSlice.actions

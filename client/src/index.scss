@@ -1,6 +1,9 @@
+@function getFontSize ($multiplier: 1){
+  @return #{$multiplier * 16}px
+}
 
 :root {
-  font-family: "Roboto", sans-serif;
+  font-family: "Mulish", sans-serif;
   font-weight: 400;
   font-style: normal;
   line-height: 1.5;
@@ -9,19 +12,20 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  
   --color-primary: #7f27ff;
   --color-hover: #f5eeff;
   --bg-primary: #ffffff;
   --bg-secondary: #f4f3f3;
+  --bg-input: #f0f3ff;
 }
 
 *, *:after, *:before {
   box-sizing: border-box;
+  margin: 0;
 } 
 
 body {
-  margin: 0;
   padding: 0;
 }
 
@@ -37,4 +41,17 @@ a {
 .container {
   width: 1440px;
   margin: 0 auto;
+  height: 100%;
+}
+
+h1 {
+  font-size: getFontSize(4);
+}
+
+h2 {
+  font-size: getFontSize(3);
+}
+
+h3 {
+  font-size: getFontSize(2);
 }

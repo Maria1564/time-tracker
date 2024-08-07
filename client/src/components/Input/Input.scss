@@ -1,0 +1,18 @@
+.inp {
+    background-color: var(--bg-input);
+    padding: 12px 15px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 3px 5px 9px 0px #b5a5d294;
+
+    &:focus {
+        outline-color: var(--color-primary);
+        background-color: var(--color-hover);
+        box-shadow: none;
+    }
+
+    &::placeholder {
+        color: rgba(165, 162, 168, 0.76);
+        font-size: 16px;
+    }
+}
