@@ -1,0 +1,9 @@
+@mixin flex-column-elem {
+  display: flex;
+  flex-direction: column;
+}
+
+
+@function getFontSize($multiplier: 1) {
+  @return #{$multiplier * 16}px;
+}

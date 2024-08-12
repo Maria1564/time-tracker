@@ -1,0 +1,95 @@
+@import "../../scss/mixins";
+
+.wrapper {
+  background-color: var(--bg-primary);
+  box-shadow: 3px 2px 14px 0px rgb(205 180 226 / 84%);
+  @include flex-column-elem;
+  width: 100%;
+  max-width: 320px;
+  gap: 50px;
+  padding-top: 20px;
+}
+
+.info_user {
+  @include flex-column-elem;
+  margin-left: 32px;
+  width: max-content;
+  
+  svg {
+    width: 50px;
+    height: 50px;
+    color:  var(--color-primary);
+    margin-bottom: 8px;
+  }
+  
+  span.login {
+    font-size: 28px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  span.email {
+    color:  grey;
+  } 
+}
+
+.nav {
+  flex-grow: 1;
+  @include flex-column-elem;
+}
+
+.list {
+  padding-left: 22px;
+  @include flex-column-elem;
+  align-items: flex-end;
+  gap: 5px;
+
+  li {
+    width: 100%;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px 20px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    transition: background-color 0.4s;
+
+    &.active_link {
+      background-color: var(--color-hover);
+    }
+
+    &:hover {
+      background-color: var(--color-hover);
+    }
+
+    svg {
+        width: 22px;
+        height: 22px;
+    }
+  }
+}
+
+.log_out {
+  padding: 0 0 35px 52px;
+  margin-top: auto;
+
+  a {
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    svg {
+        width: 22px;
+        height: 22px;
+    }
+  }
+}

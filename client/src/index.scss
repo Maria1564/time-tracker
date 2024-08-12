@@ -1,41 +1,46 @@
-@function getFontSize ($multiplier: 1){
-  @return #{$multiplier * 16}px
-}
+
+
+@import "./scss/mixins";
 
 :root {
   font-family: "Mulish", sans-serif;
   font-weight: 400;
   font-style: normal;
   line-height: 1.5;
-  
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   --color-primary: #7f27ff;
-  --color-hover: #f5eeff;
+  --color-hover: #eee2ff;
   --bg-primary: #ffffff;
-  --bg-secondary: #f4f3f3;
+  --bg-secondary: #ece9f5;
   --bg-input: #f0f3ff;
 }
 
-*, *:after, *:before {
+*,
+*:after,
+*:before {
   box-sizing: border-box;
   margin: 0;
-} 
+  overflow-wrap: break-word;
+}
 
 body {
   padding: 0;
 }
 
+ul {
+  list-style: none;
+}
+
 a {
   text-decoration: none;
-  font-size: 500;
-
-  &.active {
-    color: var(--color-primary);
-  }
+  font-weight: 700;
+  font-size: 18px;
+  color: black;
 }
 
 .container {
@@ -56,6 +61,10 @@ h3 {
   font-size: getFontSize(2);
 }
 
+span {
+  font-size: 18px;
+}
+
 .loading {
   position: absolute;
   top: 50%;
@@ -66,4 +75,8 @@ h3 {
 .error {
   text-align: center;
   color: red;
+}
+
+section {
+  flex-grow: 1;
 }
