@@ -1,5 +1,5 @@
 
-import { Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage"
 import LoginPage from "./pages/LoginPage/LoginPage"
 import Layout from "./layout/Layout"
@@ -10,6 +10,7 @@ import PrivateRoute from "./utils/router/PrivateRoute"
 import NewActivityPage from "./pages/NewActivityPage/NewActivityPage"
 import StatisticPage from "./pages/StatisticPage/StatisticPage"
 import ListActivitiesPage from "./pages/ListActivitiesPage/ListActivitiesPage"
+import HomePage from "./pages/HomePage/HomePage"
 
 
 const App = () => {
@@ -32,7 +33,7 @@ const App = () => {
       <Routes>
         <Route element={<PrivateRoute isAuth={isAuth}/>}>
           <Route path="/" element={<Layout />}>
-            <Route index  element={<Navigate to="new-activity"/>}/>
+            <Route index  element={<HomePage/>}/>
             <Route  path="new-activity" element={<NewActivityPage/>}/>
             <Route  path="statistic" element={<StatisticPage/>}/>
             <Route  path="activity-list" element={<ListActivitiesPage/>}/>

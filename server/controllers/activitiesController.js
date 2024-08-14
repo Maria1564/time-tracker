@@ -7,8 +7,16 @@ const getActivities = async(req, res) => {
         const activities = await db.query(`SELECT useractivities.id, nameactivity, colors.hexcode 
             FROM useractivities, colors
             WHERE useractivities.idcolor = colors.id and useractivities.idUser = $1`, [req.idUser]) 
-        
-            res.json(activities.rows)
+            
+
+            const updatedActivities = activities.rows.map(activity => ({
+                id: activity.id, 
+                nameActivity: activity.nameactivity,
+                hexcode: activity.hexcode 
+            }));
+
+
+            res.json(updatedActivities)
     } catch (err) {
         console.log(err.message)
         res.status(400).json({
@@ -20,21 +28,22 @@ const getActivities = async(req, res) => {
 //добавление новой активности
 const createActivity = async(req, res) => {
    try {
-        const {idColor, nameActivity} = req.body
+        const {idColor, nameNewActivity} = req.body
         const idUser = req.idUser
 
         const newActivity = await db.query(`INSERT INTO public.useractivities (
-	 nameactivity, iduser, idcolor) VALUES ( $1, $2, $3) RETURNING id, nameactivity, idcolor`, [nameActivity, idUser, idColor])
+	 nameactivity, iduser, idcolor) VALUES ( $1, $2, $3) RETURNING id, nameactivity, idcolor`, [nameNewActivity, idUser, idColor])
 
      const selectColor = await db.query(`select hexcode from colors where id = $1`, [newActivity.rows[0]["idcolor"]])
 
-     const {id: idActivity, nameactivity: nameActiv} = newActivity.rows[0]
+     const {id, nameactivity: nameActivity} = newActivity.rows[0]
      res.json({
-        idActivity,
-        nameActiv,
+        id,
+        nameActivity,
         hexColor: selectColor.rows[0].hexcode
      })
    } catch (err) {
+    console.log(err.message)
         res.status(400).json({
             message: "Не удалось создать новую активность"
         })
@@ -48,7 +57,7 @@ const deleteActivity = async (req, res) => {
 	    WHERE id = $1 RETURNING id`, [req.params.id])
         
         res.json({
-            activityId: deletedActivity.rows[0].id
+            id: deletedActivity.rows[0].id
         })
 
     } catch (err) {
@@ -62,12 +71,22 @@ const deleteActivity = async (req, res) => {
 //редактирование выбранной активности
 const updateActivity = async(req, res) => {
     try {
-        const {nameActivity, idColor} = req.body
-        const changedActivity = await db.query(`UPDATE useractivities SET nameactivity=$1, idcolor=$2 RETURNING id, nameActivity, idColor`, [nameActivity, idColor])
+        const {idActive, nameNewActivity, idColor} = req.body
+        const changedActivity = await db.query(`UPDATE useractivities SET  nameactivity=$1, idcolor=$2 where id = $3 RETURNING id, nameActivity, idColor`, [nameNewActivity, idColor, idActive])
+        const selectedColor = await db.query(`SELECT hexcode FROM colors where id = $1`, [changedActivity.rows[0].idcolor])
         
-        res.json(changedActivity.rows[0])
+        const {id, nameactivity: nameActivity} = changedActivity.rows[0]
+        
+        res.json({
+            id,
+            nameActivity,
+            hexcode: selectedColor.rows[0].hexcode
+        })
     } catch (err) {
-        
+        console.log(err.message)
+        res.status(400).json({
+            message: "Не удалось обновить активность"
+        })
     }
 }
 

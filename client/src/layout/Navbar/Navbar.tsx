@@ -1,13 +1,27 @@
 import s from "./Navbar.module.scss"
-import { useAppSelector } from "../../hooks/hooksStore"
+import { useAppDispatch, useAppSelector } from "../../hooks/hooksStore"
 import { FaRegCircleUser, FaPlus, FaChartPie, FaListUl} from "react-icons/fa6";
 import { AiOutlineLogin } from "react-icons/ai";
-import { Link, NavLink } from "react-router-dom";
+
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { logOut } from "../../store/slices/userSlice";
+import { BiSolidHome } from "react-icons/bi";
 
 type FuncActiveLink = ({ isActive }: { isActive: boolean }) => string
 const setActiveLink: FuncActiveLink= ({isActive})=> isActive ? s.active_link : ""
-const Navbar = () => {
+
+const Navbar: React.FC = () => {
   const infoUser = useAppSelector(({user})=> user.infoUser)
+
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  //Обработчик выхода из учётки
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    dispatch(logOut({isAuth: false, infoUser: null}))
+    navigate("login")
+  }
 
   return (
     <div className={s.wrapper}>
@@ -18,6 +32,13 @@ const Navbar = () => {
       </div>
       <nav className={s.nav}>
         <ul className={s.list}>
+        <li>
+            
+            <NavLink to="" className={setActiveLink}>
+              <BiSolidHome/> 
+              Главная
+            </NavLink>
+          </li>
           <li>
             
             <NavLink to="new-activity" className={setActiveLink}>
@@ -40,7 +61,7 @@ const Navbar = () => {
           </li>
         </ul>
         <div className={s.log_out}>
-          <Link to="login">
+          <Link to="login" onClick={handleLogout}>
             <AiOutlineLogin />
             Выйти
           </Link>

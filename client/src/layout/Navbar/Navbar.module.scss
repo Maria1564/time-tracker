@@ -67,9 +67,9 @@
       background-color: var(--color-hover);
     }
 
-    &:hover {
-      background-color: var(--color-hover);
-    }
+    // &:hover {
+    //   background-color: var(--color-hover);
+    // }
 
     svg {
         width: 22px;
@@ -87,6 +87,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    width: max-content;
     svg {
         width: 22px;
         height: 22px;

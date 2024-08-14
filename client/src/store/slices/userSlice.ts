@@ -74,6 +74,10 @@ export const userSlice = createSlice({
     reducers: {
         clearError: (state, action: PayloadAction<null>)=>{
             state.error = action.payload
+        },
+        logOut: (state, action: PayloadAction<{isAuth: boolean, infoUser: null}>) =>{
+            state.isAuth = action.payload.isAuth
+            state.infoUser = action.payload.infoUser
         }
     },
     extraReducers: (builder)=> {
@@ -114,4 +118,4 @@ const logError = (action: UnknownAction)=>{
 }
 
 export default userSlice.reducer
-export const {clearError} = userSlice.actions
+export const {clearError, logOut} = userSlice.actions

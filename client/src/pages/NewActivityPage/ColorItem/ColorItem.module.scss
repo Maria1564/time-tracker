@@ -1,0 +1,28 @@
+@import "../../../scss/mixins";
+
+.wrapper_item {
+    max-width:110px;
+    width: 100%;
+    @include flex-column-elem;
+    align-items:center;
+}
+
+.item {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &.active {
+        border: 3px solid var(--color-primary);
+    }
+}
+
+
+.name {
+    font-weight: 500;
+    width: max-content;
+    &.active{
+        color: var(--color-primary);
+    }
+}
