@@ -10,7 +10,7 @@ const saveActivityData = async(req, res)=>{
     res.json({newActivity: activityLogItem.rows[0]})
     // res.json({startTime, endTime: new Date(endTime).toLocaleString()})
     } catch (err) {
-        // console.log(err)
+        console.log(err)
         res.status(400).json({
             message: "Не удалось занести информацию об активности в журнал"
         })
