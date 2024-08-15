@@ -7,7 +7,9 @@ const Layout: React.FC = () => {
   return (
     <div className={s.content}>
       <Navbar />
-      <Outlet />
+      <div className={s.outlet}>
+        <Outlet />
+      </div>
     </div>
   )
 }
