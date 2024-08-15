@@ -9,9 +9,9 @@ import ActivityCard from './ActivityCard/ActivityCard'
 import Modal from '../../components/Modal/Modal'
 import Timer from './Timer/Timer'
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
     const [activities, setActivities]  = useState<IActivity[]>([])
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(true)
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [currentActivity, setCurrentActivity] = useState<IActivity | null>(null)
     const dispatch = useAppDispatch()   
     const listActivities = useAppSelector(state => state.activities.listActivities)
@@ -58,7 +58,7 @@ const HomePage = () => {
         <div className={s.top_activities}>
             <span className={s.title}>Топ активностей за неделю</span>
         </div>
-            
+
         {(isModalOpen && currentActivity !== null) && <Modal>
                 <Timer currentActivity={currentActivity} setIsModalOpen={setIsModalOpen}/>
             </Modal>}

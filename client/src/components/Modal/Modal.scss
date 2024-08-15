@@ -23,12 +23,13 @@
 .modal_content {
     @include center-block;
     @include flex-column-elem;
+    align-items: center;
+    justify-content: center;
     width: 700px;
     min-height: 500px;
-    border-radius: 8px;
+    border-radius: 12px;
     background-color: var(--bg-primary);
     box-shadow: var(--shadow-wrapper);
-    align-items: center;
     padding: 20px;
     // border: 1px solid black;
 
