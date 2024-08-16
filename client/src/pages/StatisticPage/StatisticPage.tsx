@@ -1,9 +1,14 @@
 import React from 'react'
+import DoughnutChart from './DoughnutChart/DoughnutChart'
+import DailyActivities from './DailyActivities/DailyActivities'
 
 
-const StatisticPage = () => {
+const StatisticPage: React.FC = () => {
   return (
-    <section>StatisticPage</section>
+    <>
+      <DoughnutChart/>
+      <DailyActivities/>
+    </>
   )
 }
 

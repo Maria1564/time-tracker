@@ -23,13 +23,19 @@ const getLogUserActivities = async(req, res) => {
     try{
         const logActivitiesDay = await db.query(
     `SELECT userActivities.nameActivity, colors.hexcode,
-	FLOOR(SUM(EXTRACT(EPOCH FROM (endTime - startTime)) / 60)) AS minutesDiff
+	ROUND(SUM(EXTRACT(EPOCH FROM (endtime - starttime)) / 60), 0) AS minutesDiff
 	FROM activitytracking, userActivities, colors
 	WHERE activitytracking.idActivity = userActivities.id and userActivities.idColor = colors.id and activitytracking.idUser = $1 and DATE(startTime) = $2 
 	GROUP BY userActivities.nameActivity, colors.hexcode`,
             [req.idUser, req.query.date])
 
-            res.json(logActivitiesDay.rows)
+            const updateLogActivitiesDay = logActivitiesDay.rows.map(log => ({
+                nameActivity: log.nameactivity,
+                hexcode: log.hexcode,
+                minutes: log.minutesdiff
+            }));
+            
+            res.json(updateLogActivitiesDay)
     }catch(err){
         console.log(err)
         res.status(400).json({
