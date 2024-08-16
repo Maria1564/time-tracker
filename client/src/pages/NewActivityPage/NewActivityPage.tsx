@@ -16,7 +16,7 @@ const NewActivityPage: React.FC = () => {
 
   const [colors, setColors] = useState<IColors[]>([])
   const [selectedIdColor, setSelectedIdColor] = useState<number>(1)
-  const [activity, setActivity] = useState<string>('');
+  const [activity, setActivity] = useState<string>("")
 
   const dispatch = useAppDispatch()
 
@@ -54,8 +54,10 @@ const NewActivityPage: React.FC = () => {
             required
             minLength={3}
             maxLength={50}
-            value = {activity}
-            onChange = {((e: ChangeEvent<HTMLInputElement>)=>setActivity(e.currentTarget.value))}
+            value={activity}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setActivity(e.currentTarget.value)
+            }
           />
         </div>
         <div>
