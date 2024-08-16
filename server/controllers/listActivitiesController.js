@@ -58,9 +58,30 @@ const getHistoryActivity = async(req, res) => {
     }
 }
 
+//получение активности дня
+const getTopActivity = async(req, res)=> {
+    try {
+        const activity = await db.query(`SELECT nameActivity,
+	ROUND(SUM(EXTRACT(EPOCH FROM (endtime - starttime)) / 60), 0) AS minutesDiff
+	FROM activitytracking, useractivities
+	where activitytracking.idActivity = useractivities.id and activitytracking.iduser = $1 and DATE(startTime) = current_date 
+	group by nameActivity 
+	order by minutesDiff desc
+	limit 1`, [req.idUser])
+            // console.log(activity)
+    res.json(activity.rows[0])
+    } catch (error) {
+        console.log(err)
+        res.status(400).json({
+            message: "Не удалось получить активность дня"
+        })   
+    }
+}
+
 
 module.exports = {
     saveActivityData,
     getLogUserActivities,
-    getHistoryActivity
+    getHistoryActivity,
+    getTopActivity
 }

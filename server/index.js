@@ -36,4 +36,7 @@ app.post("/activity-log", checkAuth, listActivitiesController.saveActivityData)
 //данные одной активности
 app.get("/activity/history/:idAct", checkAuth, listActivitiesController.getHistoryActivity)
 
+//данные об активности дня
+app.get("/activity-day", checkAuth, listActivitiesController.getTopActivity)
+
 app.listen(PORT, ()=> console.log("start server..."))
