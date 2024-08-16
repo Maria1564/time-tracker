@@ -13,7 +13,7 @@ module.exports = checkAuth = (req, res, next)=>{
 
         //проверка срока жизни токена
         const decoded = jwt.verify(token, 'secretKey');
-        console.log("decoded >> ",decoded) //{ login: 'VasyOk', iat: 1722355123, exp: 1722391123 }
+        // console.log("decoded >> ",decoded) //{ login: 'VasyOk', iat: 1722355123, exp: 1722391123 }
         req.idUser = decoded.idUser
         next()
       } catch(err) {

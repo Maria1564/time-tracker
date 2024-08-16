@@ -23,7 +23,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    box-shadow: 4px 4px 14px 4px #d3c4ea;
+    box-shadow: var(--shadow-wrapper);
 
     & form {
         margin-top: 60px;

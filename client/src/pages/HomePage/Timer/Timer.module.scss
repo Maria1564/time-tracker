@@ -1,0 +1,24 @@
+.time_value {
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.name {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+.control_buttons {
+    margin-top: 55px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    
+    svg {
+        width: 32px;
+        height: 32px;
+    }
+}

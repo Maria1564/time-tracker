@@ -1,0 +1,38 @@
+@import "../../scss/mixins";
+
+.page_empty {
+    @include flex-column-elem; 
+    align-items: center;
+    gap: 20px;
+    @include center-block;
+}
+
+.home_wrapper {
+  position: relative;
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    gap: 150px;
+    flex-wrap: wrap;
+    
+    .title {
+        display: block;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--color-primary);
+    }
+
+    
+    .list_activities{
+        @include flex-column-elem;
+        gap: 18px;
+        flex-grow: 1;
+        padding: 0 40px;
+    }
+
+    .top_activities {
+        flex-grow: 1;
+    }
+   
+}

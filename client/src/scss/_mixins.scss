@@ -1,0 +1,15 @@
+@mixin flex-column-elem {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin center-block {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@function getFontSize($multiplier: 1) {
+  @return #{$multiplier * 16}px;
+}
