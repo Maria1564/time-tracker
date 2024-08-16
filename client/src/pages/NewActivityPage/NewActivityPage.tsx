@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import s from "./NewActivityPage.module.scss"
 import Input from "../../components/Input/Input"
 import axios from "../../axios"
@@ -16,6 +16,7 @@ const NewActivityPage: React.FC = () => {
 
   const [colors, setColors] = useState<IColors[]>([])
   const [selectedIdColor, setSelectedIdColor] = useState<number>(1)
+  const [activity, setActivity] = useState<string>('');
 
   const dispatch = useAppDispatch()
 
@@ -36,6 +37,8 @@ const NewActivityPage: React.FC = () => {
     }
 
     dispatch(createNewActivity(newActivity))
+    setActivity("")
+    setSelectedIdColor(1)
   }
 
   return (
@@ -51,6 +54,8 @@ const NewActivityPage: React.FC = () => {
             required
             minLength={3}
             maxLength={50}
+            value = {activity}
+            onChange = {((e: ChangeEvent<HTMLInputElement>)=>setActivity(e.currentTarget.value))}
           />
         </div>
         <div>
