@@ -67,11 +67,19 @@ const Timer:React.FC<TimerProps> = ({currentActivity, setIsModalOpen}) => {
                 startTime,
                 endTime: currentTime
                 }
-            )
+            ).then(({data}) => {
+                console.log("sd data>> ", data)  
+                reset()
+                setIsModalOpen(false)
+                console.log("Сброс")
+            })
+
+        }else{
+            reset()
+            setIsModalOpen(false)
+            console.log("Сброс")
         }
 
-        reset()
-        setIsModalOpen(false)
     }
 
     //Пауза

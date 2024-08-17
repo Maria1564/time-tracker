@@ -7,19 +7,20 @@ import { IActivity } from "../../interfaces"
 import DailyActivities from "./DailyActivities/DailyActivities"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
+
+//тип для записях об активностях
 type logActivities = Omit<IActivity, "id"> & { minutes: string }
 
 const StatisticPage: React.FC = () => {
   const [listLogActivity, setListLogActivity] = useState<logActivities[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  //тип для записях об активностях
   useEffect(() => {
     axios
       .get<logActivities[]>(
         "http://localhost:5000/activity-log",
-        // {params:{data: new Date().toLocaleDateString()}}
-        { params: { date: "16.08.2024" } }
+        {params:{date: new Date().toLocaleDateString()}}
+        // { params: { date: "16.08.2024" } }
       )
       .then(({ data }) => {
         setListLogActivity(data)
