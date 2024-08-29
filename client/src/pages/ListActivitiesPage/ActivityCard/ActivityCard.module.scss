@@ -3,10 +3,9 @@
   margin-top: 40px;
   width: 350px;
   height: 280px;
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: var(--bg-primary);
   box-shadow: 4px 4px 5px 0px #d4cde0;
-  overflow: hidden;
 
   display: flex;
   flex-direction: column;
@@ -21,6 +20,7 @@
     height: 100%;
     background-color: var(--color-primary);
     clip-path: polygon(100% -1%, 100% 101%, 1% 100%);
+    border-radius: 12px;
   }
 
   h3 {

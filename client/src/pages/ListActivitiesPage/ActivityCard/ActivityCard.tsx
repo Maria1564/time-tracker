@@ -2,6 +2,7 @@ import React, { } from "react"
 import s from "./ActivityCard.module.scss"
 import { IActivity } from "../../../interfaces"
 import { BsThreeDotsVertical } from "react-icons/bs"
+import ContextMenu from "../ContextMenu/ContextMenu"
 
 type ActivityCardProps = {
   activity: IActivity;
@@ -12,7 +13,6 @@ type ActivityCardProps = {
 const ActivityCard: React.FC<ActivityCardProps> = ({ activity, setActiveContextMenu, showContextMenu}) => {
 
   return (
-    <>
       <div className={s.card} onClick={()=>showContextMenu && setActiveContextMenu(null)}>
         <div
           className={s.triangle}
@@ -20,9 +20,9 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, setActiveContextM
         ></div>
         <BsThreeDotsVertical className={s.options} onClick={() => setActiveContextMenu(activity.id)}/>
         <h3>{activity.nameActivity}</h3>
+
+        {showContextMenu && <ContextMenu idActivity={activity.id}/>}
       </div>
-      {showContextMenu && "Menu"}
-    </>
   )
 }
 

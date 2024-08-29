@@ -1,0 +1,37 @@
+.menu {
+    position: absolute;
+    top: 51px;
+    left: -8px;
+    background-color: var(--bg-primary);
+    border-radius: 5px;
+    box-shadow: 4px 1px 5px 1px #ccc4ea;;
+    padding: 20px;
+    z-index: 10;
+
+    .item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: 0.5s color;
+
+        &:not(:last-child){
+            margin-bottom: 18px;
+        }
+
+        &:hover a,
+        &:hover .icon {
+            color: var(--color-primary);
+        }
+        a {
+            font-weight: 500;
+            transition: 0.5s color;
+        }
+        .icon {
+            width: 20px;
+            height: 20px;
+            transition: 0.5s color;
+            
+        }
+
+    }
+}
