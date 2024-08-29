@@ -1,0 +1,13 @@
+.wrapper {
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  .time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: auto;
+    padding-right: 50px;
+  }
+}
