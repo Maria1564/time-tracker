@@ -44,7 +44,7 @@ const NewActivityPage: React.FC = () => {
   return (
     <section className={s.new_activity}>
       <form className={s.wrapper} onSubmit={(e) => handleCreateNewActivity(e)}>
-        <h2>Создать активность</h2>
+        <h2 className="title">Создать активность</h2>
         <div className={s.about_activity}>
           <label className={s.label}>Название</label>
           <Input

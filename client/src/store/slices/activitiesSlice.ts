@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction, UnknownAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IActivity } from "../../interfaces";
 import axios from "../../axios";
 
@@ -62,6 +62,10 @@ export const activitiesSlice = createSlice({
                 state.loading = false
                 state.listActivities = action.payload
             })
+            .addCase(getActivities.rejected, (state, action) => {
+                state.error = action.payload || 'Unknown error';
+                state.loading = false;
+            })
 
             .addCase(createNewActivity.pending, (state)=>{
                 state.error = null
@@ -71,17 +75,11 @@ export const activitiesSlice = createSlice({
                 state.loading = false
                 state.listActivities.push(action.payload)
             })
-
-            .addMatcher(logError, (state, action:PayloadAction<string>)=>{
-                state.loading = false
-                state.error = action.payload
+            .addCase(createNewActivity.rejected, (state, action) => {
+                state.error = action.payload || 'Unknown error';
+                state.loading = false;
             })
     }
 })
-
-
-const logError = (action: UnknownAction)=>{
-    return action.type.endsWith("rejected")
-}
 
 export default activitiesSlice.reducer

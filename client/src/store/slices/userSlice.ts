@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction, UnknownAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../../interfaces";
 import axios from "../../axios";
 
@@ -89,12 +89,22 @@ export const userSlice = createSlice({
                 state.infoUser = action.payload
                 state.isAuth = true
             })
+            .addCase(loginUser.rejected, (state, action) => {
+                state.error = action.payload || 'Unknown error';
+                state.loading = false;
+            })
+            
             .addCase(registerUser.pending,  (state)=>{
                 state.error = null
             })
             .addCase(registerUser.fulfilled, (state, action)=> {
                 state.infoUser = action.payload
             })
+            .addCase(registerUser.rejected, (state, action) => {
+                state.error = action.payload || 'Unknown error';
+                state.loading = false;
+            })
+
             .addCase(getInfoUser.pending,  (state)=>{
                 state.error = null
                 state.loading = true
@@ -104,18 +114,14 @@ export const userSlice = createSlice({
                 state.isAuth = true
                 state.loading = false
             })
-            .addMatcher(logError, (state, action: PayloadAction<string>)=>{
-                state.error = action.payload
-                state.isAuth = false
-                state.loading = false
+            .addCase(getInfoUser.rejected, (state, action) => {
+                state.error = action.payload || 'Unknown error';
+                state.loading = false;
             })
     }
 
 })
 
-const logError = (action: UnknownAction)=>{
-    return action.type.endsWith("rejected")
-}
 
 export default userSlice.reducer
 export const {clearError, logOut} = userSlice.actions

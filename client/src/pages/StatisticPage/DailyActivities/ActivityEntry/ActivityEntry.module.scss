@@ -1,13 +1,15 @@
+@import "../../../../scss/mixins";
+
 .wrapper {
   &:not(:last-child) {
     margin-bottom: 20px;
   }
 
   .time {
-    display: flex;
-    flex-direction: column;
+    @include flex-column-elem;
     align-items: flex-start;
     margin-left: auto;
     padding-right: 50px;
   }
+  
 }

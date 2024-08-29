@@ -1,0 +1,23 @@
+@import "../../scss/mixins";
+
+.wrapper {
+    padding: 20px 40px;
+    height: 100%;
+
+    .page_empty {
+        width: max-content;
+        @include center-block;
+        
+        button {
+            display: block;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+    }   
+
+    .list_activities {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}
