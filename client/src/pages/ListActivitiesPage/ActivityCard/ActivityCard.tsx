@@ -5,13 +5,11 @@ import { BsThreeDotsVertical } from "react-icons/bs"
 
 type ActivityCardProps = {
   activity: IActivity;
-  handleRightClick: (event: React.MouseEvent<SVGElement, MouseEvent>, idCard: number) => void;
-  setActiveContextMenu: (idCard: null) => void
+  setActiveContextMenu: (idCard: null| number) => void
   showContextMenu: boolean
 }
 
-const ActivityCard: React.FC<ActivityCardProps> = ({ activity, handleRightClick, setActiveContextMenu, showContextMenu}) => {
-
+const ActivityCard: React.FC<ActivityCardProps> = ({ activity, setActiveContextMenu, showContextMenu}) => {
 
   return (
     <>
@@ -20,7 +18,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, handleRightClick,
           className={s.triangle}
           style={{ background: `${activity.hexcode}` }}
         ></div>
-        <BsThreeDotsVertical className={s.options} onClick={(event) => handleRightClick(event, activity.id)}/>
+        <BsThreeDotsVertical className={s.options} onClick={() => setActiveContextMenu(activity.id)}/>
         <h3>{activity.nameActivity}</h3>
       </div>
       {showContextMenu && "Menu"}

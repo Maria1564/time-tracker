@@ -27,12 +27,7 @@ const ListActivitiesPage = () => {
     }
   }, [listActiv, loading])
 
-  //Открытие контекстного меню
-  const handleRightClick = (event: React.MouseEvent<SVGElement, MouseEvent>, cardId: number) => {
-    event.preventDefault()
-    setActiveContextMenu(cardId)
-  }
-
+  
   if (!loading && error) {
     return <h3>Не удалось получить список</h3>
   }
@@ -40,7 +35,6 @@ const ListActivitiesPage = () => {
   if (loading) {
     return <h2 className="loading">Загрузка...</h2>
   }
-  console.log(activeContextMenu)
   return (
     <div className={s.wrapper}>
       {activities.length && !loading ? (
@@ -51,7 +45,6 @@ const ListActivitiesPage = () => {
               <ActivityCard
                 key={elem.id}
                 activity={elem}
-                handleRightClick={handleRightClick}
                 setActiveContextMenu={setActiveContextMenu}
                 showContextMenu={activeContextMenu === elem.id}
               />

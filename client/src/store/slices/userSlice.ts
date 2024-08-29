@@ -90,7 +90,7 @@ export const userSlice = createSlice({
                 state.isAuth = true
             })
             .addCase(loginUser.rejected, (state, action) => {
-                state.error = action.payload || 'Unknown error';
+                state.error = action.payload as string  ;
                 state.loading = false;
             })
             
@@ -101,7 +101,7 @@ export const userSlice = createSlice({
                 state.infoUser = action.payload
             })
             .addCase(registerUser.rejected, (state, action) => {
-                state.error = action.payload || 'Unknown error';
+                state.error = action.payload as string;
                 state.loading = false;
             })
 
@@ -115,7 +115,7 @@ export const userSlice = createSlice({
                 state.loading = false
             })
             .addCase(getInfoUser.rejected, (state, action) => {
-                state.error = action.payload || 'Unknown error';
+                state.error = action.payload as string;
                 state.loading = false;
             })
     }
