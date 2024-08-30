@@ -9,7 +9,7 @@ import DailyActivities from "./DailyActivities/DailyActivities"
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 //тип для записях об активностях
-export type logActivities = Omit<IActivity, "id"> & { minutes: string }
+export type logActivities = Omit<IActivity, "id"> & { minutes: string, seconds: string }
 
 const StatisticPage: React.FC = () => {
   const [listLogActivity, setListLogActivity] = useState<logActivities[]>([])
@@ -19,8 +19,8 @@ const StatisticPage: React.FC = () => {
     axios
       .get<logActivities[]>(
         "http://localhost:5000/activity-log",
-        // {params:{date: new Date().toLocaleDateString()}}
-        { params: { date: "17.08.2024" } }
+        {params:{date: new Date().toLocaleDateString()}}
+        // { params: { date: "17.08.2024" } }
       )
       .then(({ data }) => {
         setListLogActivity(data)
@@ -34,7 +34,7 @@ const StatisticPage: React.FC = () => {
     datasets: [
       {
         label: "минут",
-        data: listLogActivity.map((log) => log.minutes),
+        data: listLogActivity.map((log) => `${log.minutes}.${log.seconds}`),
         backgroundColor: listLogActivity.map((log) => log.hexcode),
         hoverOffset: 5,
         borderRadius: 8,

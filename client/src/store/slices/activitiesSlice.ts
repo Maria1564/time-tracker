@@ -37,9 +37,21 @@ export const createNewActivity = createAsyncThunk<IActivity, {idColor: number; n
     }
 )
 
-//TODO:Удаление активности
+//редактирование активности
+export const editActivity = createAsyncThunk<IActivity, {idActivity: number, nameActivity: string, idColor: number}, {rejectValue:string}>(
+    "activities/editActivity",
+    async(values, {rejectWithValue})=>{
+        try {
+            const {data} = await axios.patch<IActivity>("http://localhost:5000/activities", values)
 
-//TODO:Редактирование активности
+            return data
+        } catch (err) {
+            return rejectWithValue("Не удалось отредактировать активность")
+        }   
+    }
+)
+
+//TODO:Удаление активности
 
 const initialState: ActivityState = {
     listActivities: [],
@@ -63,7 +75,7 @@ export const activitiesSlice = createSlice({
                 state.listActivities = action.payload
             })
             .addCase(getActivities.rejected, (state, action) => {
-                state.error = action.payload || 'Unknown error';
+                state.error = action.payload!;
                 state.loading = false;
             })
 
@@ -76,8 +88,26 @@ export const activitiesSlice = createSlice({
                 state.listActivities.push(action.payload)
             })
             .addCase(createNewActivity.rejected, (state, action) => {
-                state.error = action.payload || 'Unknown error';
+                state.error = action.payload!;
                 state.loading = false;
+            })
+
+            .addCase(editActivity.pending, (state)=>{
+                state.error = null
+                state.loading = true
+            })
+            .addCase(editActivity.fulfilled, (state, action)=>{
+                state.loading = false
+                state.listActivities = state.listActivities.map(elem=>{
+                    if(elem.id === action.payload.id){
+                        return action.payload
+                    }
+                    return elem
+                })
+            })
+            .addCase(editActivity.rejected, (state, action)=>{
+                state.loading = false
+                state.error = action.payload!
             })
     }
 })

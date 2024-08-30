@@ -15,7 +15,7 @@ const ActivityEntry: React.FC<ActivityEntryProps> = ({activity}) => {
         <p>{activity.nameActivity}</p>
         <div className={s_main.time}>
           <span className={s_main.minute}> {Math.round(Number(activity.minutes))} мин</span> 
-          <span className={s_main.seconds}>{activity.minutes.split(".")[1]} сек</span>
+          <span className={s_main.seconds}>{activity.seconds} сек</span>
         </div>
     </div>
   )
