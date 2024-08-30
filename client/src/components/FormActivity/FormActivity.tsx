@@ -13,11 +13,12 @@ type FormActivityProps = {
   setSelectedIdColor: (id: number ) => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  customStyle?: React.CSSProperties;
 }
 
-const FormActivity: React.FC<FormActivityProps>= ({children, titleForm, value, colors, selectIdColor, handleSubmit, handleChange, setSelectedIdColor}) => {
+const FormActivity: React.FC<FormActivityProps>= ({children, titleForm, value, colors, selectIdColor, handleSubmit, handleChange, setSelectedIdColor, customStyle={}}) => {
   return (
-    <form className={s.wrapper} onSubmit={(e) => handleSubmit(e)}>
+    <form className={s.wrapper} style={{...customStyle}} onSubmit={(e) => handleSubmit(e)}>
         <h2 className="title">{titleForm}</h2>
         <div className={s.about_activity}>
           <label className={s.label}>Название</label>

@@ -38,7 +38,7 @@ export const createNewActivity = createAsyncThunk<IActivity, {idColor: number; n
 )
 
 //редактирование активности
-export const editActivity = createAsyncThunk<IActivity, {idActivity: number, nameActivity: string, idColor: number}, {rejectValue:string}>(
+export const editActivity = createAsyncThunk<IActivity, {idActivity: number, nameNewActivity: string, idColor: number}, {rejectValue:string}>(
     "activities/editActivity",
     async(values, {rejectWithValue})=>{
         try {
