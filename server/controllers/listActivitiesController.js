@@ -75,7 +75,7 @@ const getTopActivity = async(req, res)=> {
 	group by nameActivity 
 	order by secondsDiff desc
 	limit 1`, [req.idUser])
-        console.log(activity.rows[0])    
+    
     res.json(activity.rows[0])
     } catch (error) {
         console.log(err)

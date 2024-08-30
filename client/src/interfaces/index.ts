@@ -7,7 +7,7 @@ export interface IUser {
 
 export interface IColors {
     id: number,
-    hexcode: boolean,
+    hexcode: string,
     namecolor: string,  
 }
 

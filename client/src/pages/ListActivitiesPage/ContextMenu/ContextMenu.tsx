@@ -12,7 +12,6 @@ type ContextMenuProps = {
 const ContextMenu: React.FC<ContextMenuProps> = ({setOpenModal, setActiveContextMenu }) => {
 
   const changeSelectedActivity = () => {
-    console.log("click")
     setOpenModal(true)
     setActiveContextMenu(null)
   }

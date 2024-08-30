@@ -25,7 +25,7 @@ export const getActivities = createAsyncThunk<IActivity[], undefined, {rejectVal
 
 //создание новой активности
 export const createNewActivity = createAsyncThunk<IActivity, {idColor: number; nameNewActivity: string}, {rejectValue: string}>(
-    "activities/activities",
+    "activities/createNewActivity",
     async(values, {rejectWithValue})=>{
         try{
             const {data} = await axios.post<IActivity>("http://localhost:5000/activities", values)

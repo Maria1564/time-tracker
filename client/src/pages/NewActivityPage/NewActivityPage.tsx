@@ -1,12 +1,11 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import React, { FormEvent, useEffect, useState } from "react"
 import s from "./NewActivityPage.module.scss"
-import Input from "../../components/Input/Input"
 import axios from "../../axios"
 import { IColors } from "../../interfaces"
-import ColorItem from "./ColorItem/ColorItem"
 import Button from "../../components/Button/Button"
 import { useAppDispatch } from "../../hooks/hooksStore"
 import { createNewActivity } from "../../store/slices/activitiesSlice"
+import FormActivity from "../../components/FormActivity/FormActivity"
 
 const NewActivityPage: React.FC = () => {
   interface INewActivity {
@@ -43,39 +42,17 @@ const NewActivityPage: React.FC = () => {
 
   return (
     <section className={s.new_activity}>
-      <form className={s.wrapper} onSubmit={(e) => handleCreateNewActivity(e)}>
-        <h2 className="title">Создать активность</h2>
-        <div className={s.about_activity}>
-          <label className={s.label}>Название</label>
-          <Input
-            type="text"
-            name="activity"
-            id={s.new_activity}
-            required
-            minLength={3}
-            maxLength={50}
-            value={activity}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setActivity(e.currentTarget.value)
-            }
-          />
-        </div>
-        <div>
-          <label className={s.label}>Выбор цвета</label>
-          <div className={s.box_colors}>
-            {colors.map((item) => (
-              <ColorItem
-                isSelected={selectedIdColor === item.id}
-                key={item.id}
-                setSelectedIdColor={setSelectedIdColor}
-                color={item}
-              />
-            ))}
-          </div>
-        </div>
-
+      <FormActivity
+        titleForm="Создать активность"
+        value={activity}
+        colors={colors}
+        selectIdColor={selectedIdColor}
+        setSelectedIdColor={setSelectedIdColor}
+        handleSubmit={handleCreateNewActivity}
+        handleChange={(e)=>setActivity(e.currentTarget.value)}
+      >
         <Button type="submit">Создать</Button>
-      </form>
+      </FormActivity>
     </section>
   )
 }
