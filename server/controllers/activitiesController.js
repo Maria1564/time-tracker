@@ -72,7 +72,7 @@ const deleteActivity = async (req, res) => {
 const updateActivity = async(req, res) => {
     try {
         const {idActivity, nameNewActivity, idColor} = req.body
-        console.log(idActivity, nameNewActivity, idColor)
+        
         const changedActivity = await db.query(`UPDATE useractivities SET  nameactivity=$1, idcolor=$2 where id = $3 RETURNING id, nameActivity, idColor`, [nameNewActivity, idColor, idActivity])
         const selectedColor = await db.query(`SELECT hexcode FROM colors where id = $1`, [changedActivity.rows[0].idcolor])
         
