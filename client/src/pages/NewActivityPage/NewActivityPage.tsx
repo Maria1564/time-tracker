@@ -6,8 +6,10 @@ import Button from "../../components/Button/Button"
 import { useAppDispatch } from "../../hooks/hooksStore"
 import { createNewActivity } from "../../store/slices/activitiesSlice"
 import FormActivity from "../../components/FormActivity/FormActivity"
+import { useNavigate } from "react-router-dom"
 
 const NewActivityPage: React.FC = () => {
+
   interface INewActivity {
     idColor: number
     nameNewActivity: string
@@ -16,6 +18,8 @@ const NewActivityPage: React.FC = () => {
   const [colors, setColors] = useState<IColors[]>([])
   const [selectedIdColor, setSelectedIdColor] = useState<number>(1)
   const [activity, setActivity] = useState<string>("")
+
+  const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
 
@@ -36,6 +40,15 @@ const NewActivityPage: React.FC = () => {
     }
 
     dispatch(createNewActivity(newActivity))
+    .then(res=>{
+      if(res.meta.requestStatus === "fulfilled"){
+        navigate("/")
+      }else{
+        throw new Error(res.payload as string)
+      }
+    })
+    .catch(error =>alert(error.message) )
+  
     setActivity("")
     setSelectedIdColor(1)
   }
