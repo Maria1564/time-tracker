@@ -6,7 +6,7 @@ const getActivities = async(req, res) => {
 
         const activities = await db.query(`SELECT useractivities.id, nameactivity, colors.hexcode 
             FROM useractivities, colors
-            WHERE useractivities.idcolor = colors.id and useractivities.idUser = $1`, [req.idUser]) 
+            WHERE useractivities.idcolor = colors.id and useractivities.idUser = $1 order by useractivities.id`, [req.idUser]) 
             
 
             const updatedActivities = activities.rows.map(activity => ({
