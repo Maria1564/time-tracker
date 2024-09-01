@@ -51,7 +51,19 @@ export const editActivity = createAsyncThunk<IActivity, {idActivity: number, nam
     }
 )
 
-//TODO:Удаление активности
+//удаление активности
+export const removeActivity = createAsyncThunk<{idActivity: number}, number, {rejectValue: string}>(
+    "activities/removeActivity",
+    async(idActivity, {rejectWithValue})=>{
+        try {
+            const {data} = await axios.delete<{id: number}>(`http://localhost:5000/activities/${idActivity}`)
+
+            return {idActivity: data.id}
+        } catch (err) {
+            return rejectWithValue("Не удалось удалить выбранную активность")
+        }
+    }
+)
 
 const initialState: ActivityState = {
     listActivities: [],
@@ -106,6 +118,18 @@ export const activitiesSlice = createSlice({
                 })
             })
             .addCase(editActivity.rejected, (state, action)=>{
+                state.loading = false
+                state.error = action.payload!
+            })
+
+            .addCase(removeActivity.pending, (state)=>{
+                state.error = null
+                state.loading = false
+            })
+            .addCase(removeActivity.fulfilled, (state, action)=>{
+                state.listActivities = state.listActivities.filter((elem)=>elem.id !== action.payload.idActivity)
+            })
+            .addCase(removeActivity.rejected, (state, action)=>{
                 state.loading = false
                 state.error = action.payload!
             })

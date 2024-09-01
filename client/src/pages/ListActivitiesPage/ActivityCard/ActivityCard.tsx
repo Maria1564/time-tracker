@@ -91,6 +91,7 @@ const ActivityCard: React.FC<ActivityCardProps> = React.memo(({ activity, setAct
         <h3>{activity.nameActivity}</h3>
         {showContextMenu && (
           <ContextMenu
+            idActivity={activity.id}
             setOpenModal={setOpenModal}
             setActiveContextMenu={setActiveContextMenu}
           />
