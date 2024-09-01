@@ -23,13 +23,20 @@ const getLogUserActivities = async(req, res) => {
     try{
         const logActivitiesDay = await db.query(
     `SELECT userActivities.nameActivity, colors.hexcode,
-	FLOOR(SUM(EXTRACT(EPOCH FROM (endTime - startTime)) / 60)) AS minutesDiff
+	ROUND(SUM(EXTRACT(EPOCH FROM (endtime - starttime)))) AS secondsDiff
 	FROM activitytracking, userActivities, colors
 	WHERE activitytracking.idActivity = userActivities.id and userActivities.idColor = colors.id and activitytracking.idUser = $1 and DATE(startTime) = $2 
 	GROUP BY userActivities.nameActivity, colors.hexcode`,
             [req.idUser, req.query.date])
 
-            res.json(logActivitiesDay.rows)
+            const updateLogActivitiesDay = logActivitiesDay.rows.map(log => ({
+                nameActivity: log.nameactivity,
+                hexcode: log.hexcode,
+                minutes:Math.floor( log.secondsdiff / 60),
+                seconds: log.secondsdiff % 60
+            }));
+            
+            res.json(updateLogActivitiesDay)
     }catch(err){
         console.log(err)
         res.status(400).json({
@@ -58,9 +65,30 @@ const getHistoryActivity = async(req, res) => {
     }
 }
 
+//получение активности дня
+const getTopActivity = async(req, res)=> {
+    try {
+        const activity = await db.query(`SELECT nameActivity,
+	ROUND(SUM(EXTRACT(EPOCH FROM (endtime - starttime)))) AS secondsDiff
+	FROM activitytracking, useractivities
+	where activitytracking.idActivity = useractivities.id and activitytracking.iduser = $1 and DATE(startTime) = current_date 
+	group by nameActivity 
+	order by secondsDiff desc
+	limit 1`, [req.idUser])
+    
+    res.json(activity.rows[0])
+    } catch (error) {
+        console.log(err)
+        res.status(400).json({
+            message: "Не удалось получить активность дня"
+        })   
+    }
+}
+
 
 module.exports = {
     saveActivityData,
     getLogUserActivities,
-    getHistoryActivity
+    getHistoryActivity,
+    getTopActivity
 }

@@ -7,8 +7,8 @@ export interface IUser {
 
 export interface IColors {
     id: number,
-    hexcode: boolean,
-    namecolor: string,
+    hexcode: string,
+    namecolor: string,  
 }
 
 export interface IActivity {

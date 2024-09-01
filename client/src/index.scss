@@ -62,6 +62,10 @@ h3 {
   font-size: getFontSize(2);
 }
 
+h4 {
+  font-size: getFontSize(1.5);
+}
+
 span {
   font-size: 18px;
 }
@@ -80,4 +84,8 @@ span {
 
 section {
   flex-grow: 1;
+}
+
+.title {
+  color: var(--color-primary);
 }

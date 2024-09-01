@@ -12,7 +12,7 @@
     padding-top: 30px;
     display: flex;
     justify-content: space-between;
-    gap: 150px;
+    gap: 120px;
     flex-wrap: wrap;
     
     .title {
@@ -31,8 +31,32 @@
         padding: 0 40px;
     }
 
-    .top_activities {
+    .top_activity {
         flex-grow: 1;
+        
+        .wrapper_second {
+            @include flex-column-elem;
+            align-items: center;
+            width: 720px;
+            padding: 60px 20px;
+            height: 420px;
+            background-color: var(--bg-primary);
+            border-radius: 8px;
+            box-shadow: var(--shadow-wrapper);
+
+            & > img {
+                margin-top: auto;
+            }
+
+            .minutes {
+                color: var(--color-primary);
+            }
+        }
+      
+        .today {
+            color: black;
+        }
+
+
     }
-   
 }

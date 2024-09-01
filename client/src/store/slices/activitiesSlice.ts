@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction, UnknownAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IActivity } from "../../interfaces";
 import axios from "../../axios";
 
@@ -25,7 +25,7 @@ export const getActivities = createAsyncThunk<IActivity[], undefined, {rejectVal
 
 //создание новой активности
 export const createNewActivity = createAsyncThunk<IActivity, {idColor: number; nameNewActivity: string}, {rejectValue: string}>(
-    "activities/activities",
+    "activities/createNewActivity",
     async(values, {rejectWithValue})=>{
         try{
             const {data} = await axios.post<IActivity>("http://localhost:5000/activities", values)
@@ -37,9 +37,33 @@ export const createNewActivity = createAsyncThunk<IActivity, {idColor: number; n
     }
 )
 
-//TODO:Удаление активности
+//редактирование активности
+export const editActivity = createAsyncThunk<IActivity, {idActivity: number, nameNewActivity: string, idColor: number}, {rejectValue:string}>(
+    "activities/editActivity",
+    async(values, {rejectWithValue})=>{
+        try {
+            const {data} = await axios.patch<IActivity>("http://localhost:5000/activities", values)
 
-//TODO:Редактирование активности
+            return data
+        } catch (err) {
+            return rejectWithValue("Не удалось отредактировать активность")
+        }   
+    }
+)
+
+//удаление активности
+export const removeActivity = createAsyncThunk<{idActivity: number}, number, {rejectValue: string}>(
+    "activities/removeActivity",
+    async(idActivity, {rejectWithValue})=>{
+        try {
+            const {data} = await axios.delete<{id: number}>(`http://localhost:5000/activities/${idActivity}`)
+
+            return {idActivity: data.id}
+        } catch (err) {
+            return rejectWithValue("Не удалось удалить выбранную активность")
+        }
+    }
+)
 
 const initialState: ActivityState = {
     listActivities: [],
@@ -62,6 +86,10 @@ export const activitiesSlice = createSlice({
                 state.loading = false
                 state.listActivities = action.payload
             })
+            .addCase(getActivities.rejected, (state, action) => {
+                state.error = action.payload!;
+                state.loading = false;
+            })
 
             .addCase(createNewActivity.pending, (state)=>{
                 state.error = null
@@ -71,17 +99,41 @@ export const activitiesSlice = createSlice({
                 state.loading = false
                 state.listActivities.push(action.payload)
             })
+            .addCase(createNewActivity.rejected, (state, action) => {
+                state.error = action.payload!;
+                state.loading = false;
+            })
 
-            .addMatcher(logError, (state, action:PayloadAction<string>)=>{
+            .addCase(editActivity.pending, (state)=>{
+                state.error = null
+                state.loading = true
+            })
+            .addCase(editActivity.fulfilled, (state, action)=>{
                 state.loading = false
-                state.error = action.payload
+                state.listActivities = state.listActivities.map(elem=>{
+                    if(elem.id === action.payload.id){
+                        return action.payload
+                    }
+                    return elem
+                })
+            })
+            .addCase(editActivity.rejected, (state, action)=>{
+                state.loading = false
+                state.error = action.payload!
+            })
+
+            .addCase(removeActivity.pending, (state)=>{
+                state.error = null
+                state.loading = false
+            })
+            .addCase(removeActivity.fulfilled, (state, action)=>{
+                state.listActivities = state.listActivities.filter((elem)=>elem.id !== action.payload.idActivity)
+            })
+            .addCase(removeActivity.rejected, (state, action)=>{
+                state.loading = false
+                state.error = action.payload!
             })
     }
 })
-
-
-const logError = (action: UnknownAction)=>{
-    return action.type.endsWith("rejected")
-}
 
 export default activitiesSlice.reducer
