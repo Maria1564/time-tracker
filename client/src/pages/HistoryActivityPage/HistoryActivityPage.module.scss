@@ -21,6 +21,11 @@
       height: 50px;
       fill: var(--color-primary);
       cursor: pointer;
+      transition: transform 0.5s;
+
+      &:hover{
+        transform: translate(-15px);
+      }
     }
   }
 

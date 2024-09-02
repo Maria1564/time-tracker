@@ -19,8 +19,8 @@ const StatisticPage: React.FC = () => {
     axios
       .get<logActivities[]>(
         "http://localhost:5000/activity-log",
-        // {params:{date: new Date().toLocaleDateString()}}
-        { params: { date: "17.08.2024" } }
+        {params:{date: new Date().toLocaleDateString()}}
+        // { params: { date: "17.08.2024" } }
       )
       .then(({ data }) => {
         setListLogActivity(data)
