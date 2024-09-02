@@ -55,8 +55,16 @@ const getHistoryActivity = async(req, res) => {
 	FROM activityTracking, userActivities, colors
 	WHERE activityTracking.idActivity = userActivities.id and userActivities.idColor = colors.id and
 	activityTracking.idUser = $1 and activityTracking.idActivity = $2 order by starttime desc `, [req.idUser, req.params.idAct])
- console.log(historyActivity.rows[0].starttime)
-    res.json(historyActivity.rows)
+
+    const updateHistoryActivity = historyActivity.rows.map(activity => ({
+        id: activity.id,
+        nameActivity: activity.nameactivity,
+        hexcode: activity.hexcode,
+        startTime: activity.starttime,
+        endTime: activity.endtime
+    }));
+    
+    res.json(updateHistoryActivity)
     }catch(err){
         console.log(err)
         res.status(400).json({

@@ -11,6 +11,7 @@ import NewActivityPage from "./pages/NewActivityPage/NewActivityPage"
 import StatisticPage from "./pages/StatisticPage/StatisticPage"
 import ListActivitiesPage from "./pages/ListActivitiesPage/ListActivitiesPage"
 import HomePage from "./pages/HomePage/HomePage"
+import HistoryActivityPage from "./pages/HistoryActivityPage/HistoryActivityPage"
 
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
             <Route  path="new-activity" element={<NewActivityPage/>}/>
             <Route  path="statistic" element={<StatisticPage/>}/>
             <Route  path="activity-list" element={<ListActivitiesPage/>}/>
+            <Route  path="activity-list/history/:id" element={<HistoryActivityPage/>}/>
           </Route>
         </Route>
 
