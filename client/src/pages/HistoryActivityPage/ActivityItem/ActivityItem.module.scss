@@ -1,3 +1,5 @@
+@use "@/scss/variables" as *;
+
 .wrapper {
   position: relative;
   margin-left: 40px;
@@ -8,7 +10,7 @@
 
   .date {
     position: absolute;
-    color: var(--color-primary);
+    color: $color-primary;
     top: -30px;
     left: 0;
     font-size: 20px;
@@ -22,14 +24,14 @@
     left: -48px;
     width: 20px;
     height: 20px;
-    background-color: var(--color-primary);
+    background-color: $color-primary;
     border-radius: 50%;
   }
 
   .card {
     width: 60%;
     height: auto;
-    background-color: var(--bg-primary);
+    background-color: $bg-primary;
     padding: 15px 20px;
     border-radius: 8px;
     box-shadow: 4px 4px 5px 0px #d3c4ea;

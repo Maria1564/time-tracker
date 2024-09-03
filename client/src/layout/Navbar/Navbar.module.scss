@@ -1,7 +1,8 @@
-@import "../../scss/mixins";
+@use "@/scss/variables" as *;
+@import "@/scss/mixins";
 
 .wrapper {
-  background-color: var(--bg-primary);
+  background-color: $bg-primary;
   box-shadow: 3px 2px 14px 0px rgb(205 180 226 / 84%);
   @include flex-column-elem;
   width: 100%;
@@ -18,7 +19,7 @@
   svg {
     width: 50px;
     height: 50px;
-    color:  var(--color-primary);
+    color:  $color-primary;
     margin-bottom: 8px;
   }
   
@@ -29,7 +30,7 @@
     transition: color 0.3s;
 
     &:hover {
-      color: var(--color-primary);
+      color: $color-primary;
     }
   }
 
@@ -64,11 +65,11 @@
     transition: background-color 0.4s;
 
     &.active_link {
-      background-color: var(--color-hover);
+      background-color: $color-hover;
     }
 
     // &:hover {
-    //   background-color: var(--color-hover);
+    //   background-color: $color-hover;
     // }
 
     svg {
@@ -83,7 +84,7 @@
   margin-top: auto;
 
   a {
-    color: var(--color-primary);
+    color: $color-primary;
     display: flex;
     align-items: center;
     gap: 10px;

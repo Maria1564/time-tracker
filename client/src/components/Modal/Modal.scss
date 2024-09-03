@@ -1,5 +1,5 @@
-@import "../../scss/mixins";
-
+@use "@/scss/variables" as *;
+@import "@/scss/mixins";
 
 .modal {
     position: absolute;
@@ -29,7 +29,7 @@
     width: 700px;
     min-height: 500px;
     border-radius: 12px;
-    background-color: var(--bg-primary);
-    box-shadow: var(--shadow-wrapper);
+    background-color: $bg-primary;
+    box-shadow: $shadow-wrapper;
     padding: 20px;
 }

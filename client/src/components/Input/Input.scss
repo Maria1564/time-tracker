@@ -1,14 +1,16 @@
+@use "@/scss/variables" as *;
+
 .inp {
-    background-color: var(--bg-input);
+    background-color: $bg-input;
     padding: 12px 15px;
     border: none;
     border-radius: 10px;
     box-shadow: 3px 5px 9px 0px #b5a5d294;
-    font-size: 500;
+    font-weight: 500;
 
     &:focus {
-        outline-color: var(--color-primary);
-        background-color: var(--color-hover);
+        outline-color: $color-primary;
+        background-color: $color-hover;
         box-shadow: none;
     }
 

@@ -1,16 +1,17 @@
+@use "@/scss/variables";
 @import "../../scss/mixins";
 
 .wrapper {
   width: 80%;
   margin: 0 auto;
   margin-top: 50px;
-  background-color: var(--bg-primary);
+  background-color: $bg-primary;
   border-radius: 8px;
-  box-shadow: var(--shadow-wrapper);
+  box-shadow: $shadow-wrapper;
   padding: 30px 10px;
 
   .title {
-    color: var(--color-primary);
+    color: $color-primary;
     text-align: center;
     margin-bottom: 40px;
   }
@@ -33,5 +34,5 @@
 .text {
   @include center-block;
   width: max-content;
-  color: var(--color-primary);
+  color: $color-primary;
 }

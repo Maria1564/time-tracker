@@ -1,10 +1,12 @@
+@use "@/scss/variables";
+
 .time_value {
     font-size: 48px;
     font-weight: 700;
 }
 
 .name {
-    color: var(--color-primary);
+    color: $color-primary;
     font-weight: 700;
     font-size: 20px;
     margin-top: 15px;

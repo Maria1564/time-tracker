@@ -20,7 +20,7 @@
         font-size: 24px;
         font-weight: 700;
         margin-bottom: 8px;
-        color: var(--color-primary);
+        color: $color-primary;
     }
 
     
@@ -40,16 +40,16 @@
             width: 720px;
             padding: 60px 20px;
             height: 420px;
-            background-color: var(--bg-primary);
+            background-color: $bg-primary;
             border-radius: 8px;
-            box-shadow: var(--shadow-wrapper);
+            box-shadow: $shadow-wrapper;
 
             & > img {
                 margin-top: auto;
             }
 
             .minutes {
-                color: var(--color-primary);
+                color: $color-primary;
             }
         }
       
