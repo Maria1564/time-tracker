@@ -18,7 +18,7 @@ app.use(express.json())
 app.get("/auth/me", checkAuth, userController.getInfoUser)
 app.post("/auth/register", regValidation, userController.register)
 app.post("/auth/login", loginValidation, userController.login)
-
+app.patch("/auth/account", checkAuth, userController.updateInfoUser)
 
 //получение палитры цветов
 app.get("/colors", colorsController.getAllColors)
