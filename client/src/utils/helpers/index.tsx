@@ -30,3 +30,14 @@ export const groupActivitiesByDate = (activities: IActivityWithTime[]): [string,
 
     return Array.from(activitiesByDate.entries())
   };
+
+  //приведение даты к дд.месяц.гг
+  export const formatDate = (date: Date)=> {
+    // date.setMonth(date.getMonth()-2)
+    const day = date.getDate()
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+
+    return `${day} ${monthNames[month]} ${year}`
+  }

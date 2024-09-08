@@ -1,0 +1,8 @@
+@use "@/scss/mixins" as *;
+@use "@/scss/variables" as *;
+
+.text {
+   width: max-content;
+   color: $color-primary;
+    @include center-block;
+}

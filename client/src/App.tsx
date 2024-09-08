@@ -12,6 +12,7 @@ import StatisticPage from "./pages/StatisticPage/StatisticPage"
 import ListActivitiesPage from "./pages/ListActivitiesPage/ListActivitiesPage"
 import HomePage from "./pages/HomePage/HomePage"
 import HistoryActivityPage from "./pages/HistoryActivityPage/HistoryActivityPage"
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage"
 
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
             <Route  path="statistic" element={<StatisticPage/>}/>
             <Route  path="activity-list" element={<ListActivitiesPage/>}/>
             <Route  path="activity-list/history/:id" element={<HistoryActivityPage/>}/>
+            <Route  path="*" element={<NotFoundPage/>}/>
           </Route>
         </Route>
 
