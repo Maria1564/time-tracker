@@ -60,7 +60,9 @@
 }
 
 .text {
-  @include center-block;
+  margin:100px auto;
   width: max-content;
   color: $color-primary;
+  font-size: 28px;
+  font-weight: 500;
 }

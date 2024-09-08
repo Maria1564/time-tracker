@@ -76,6 +76,7 @@ const StatisticPage: React.FC = () => {
   return (  
     <>
       <div className={s.wrapper}>
+        <h2 className={s.title}>Статистика дня</h2>
         <div className={s.date_switcher}>
           
           <FaArrowLeft className={`${s.icon_arrow_right} ${s.icon}`} onClick={()=>toggleDate("prev")}/>
@@ -83,10 +84,9 @@ const StatisticPage: React.FC = () => {
           {!isToday && <FaArrowRight  className={`${s.icon_arrow_left} ${s.icon}`} onClick={()=>toggleDate("next")}/>}
         </div>
         {listLogActivity.length === 0 && isLoading === false ? (
-          <h1 className={s.text}>Пусто</h1>
+          <p className={s.text}>Нет активностей</p>
         ) : (
           <>
-            <h2 className={s.title}>Статистика дня</h2>
             <div className={s.doughnut}>
               <Doughnut
                 typeof="doughnut"
