@@ -3,10 +3,11 @@ import Modal from "../Modal"
 import Button from "../../Button/Button"
 import s from "./UserModal.module.scss"
 import { FaRegCircleUser } from "react-icons/fa6"
-import { useAppSelector } from "../../../hooks/hooksStore"
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooksStore"
 import { SubmitHandler, useForm } from "react-hook-form"
 import axios from "@/axios"
 import { AxiosError } from "axios"
+import { changeInfoUser } from "@/store/slices/userSlice"
 
 type UserModalProps = {
   setShowModal: (status: boolean) => void
@@ -26,6 +27,7 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
   const loginUser = useAppSelector((state) => state.user.infoUser?.login)
   const [validOldPassword, setValidOldPassword] = useState<boolean>(false)
   const [errorOldPassword, setErrorOldPassword] = useState<string>("")
+  const dispatch = useAppDispatch()
 
   const {register, handleSubmit, formState: { errors }} = useForm<UserSettingsForm>({
     defaultValues: {
@@ -36,15 +38,20 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
   })
 
   const submitChangeData: SubmitHandler<UserSettingsForm> = (data) => {
-    const newInfoUser: {newPassword?: string, login?: string} = {}
+    const newInfoUser: {password?: string, login?: string} = {}
 
     if(validOldPassword || data.newPassword){
-      newInfoUser.newPassword = data.newPassword
+      newInfoUser.password = data.newPassword
     }
     if(data.login !== loginUser){
       newInfoUser.login = data.login
     }
-    console.log(newInfoUser)
+
+    if(Object.keys(newInfoUser).length !== 0){
+      dispatch(changeInfoUser(newInfoUser))
+      setShowModal(false)
+    }
+
   }
 
   const verifyOldPassword = (oldPassword: string) => {
