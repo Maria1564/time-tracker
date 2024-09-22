@@ -95,13 +95,37 @@ const login = async(req, res) => {
     }
 }
 
+//Проверка старого пароля
+const verifyOldPassword = async(req, res)=>{
+    try{
+        const idUser = req.idUser
+        const oldPassword = req.body.oldPassword
+
+        passwordHash = (await db.query(`select hashpassword from users WHERE id = $1`, [idUser])).rows[0].hashpassword
+
+        const validPassword = await bcrypt.compare(oldPassword, passwordHash)
+        
+        if(!validPassword){
+            return res.status(400).json({
+                message: "Неверный пароль"
+            })
+        }
+
+        res.json({
+            success: true
+        })
+    }catch(err){
+
+    }
+}
+
 //Обновление данных о пользователе
 const updateInfoUser = async (req, res) => {
    try {
     const idUser = req.idUser
     const allData = {id: idUser}
     const valuesUpdate = req.body
-
+    
     if(valuesUpdate.login){
         console.log('login')
         const result = await db.query(`SELECT id FROM Users WHERE users.login = $1`, [valuesUpdate.login])
@@ -120,15 +144,14 @@ const updateInfoUser = async (req, res) => {
 
         const hashPassword = await bcrypt.hash(valuesUpdate.password, 7)
         data = await db.query(`UPDATE users SET hashpassword = $1 WHERE id = $2`, [hashPassword, idUser])
-        console.log(hashPassword)
     }
 
     res.json(allData)
-   
-   } catch (err) {
+
+} catch (err) {
     console.log(err.message)
-        res.status(400).json({
-            message: "Неверный логин или пароль"
+    res.status(400).json({
+        message: "Неверный логин или пароль"
         })
    }
 }
@@ -137,5 +160,6 @@ module.exports = {
     getInfoUser,
     register,
     login,
+    verifyOldPassword,
     updateInfoUser
 }

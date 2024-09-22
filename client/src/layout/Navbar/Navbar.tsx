@@ -10,7 +10,11 @@ import { BiSolidHome } from "react-icons/bi";
 type FuncActiveLink = ({ isActive }: { isActive: boolean }) => string
 const setActiveLink: FuncActiveLink= ({isActive})=> isActive ? s.active_link : ""
 
-const Navbar: React.FC = () => {
+type NavbarProps ={
+  setShowModal:(status: boolean) => void
+}
+
+const Navbar: React.FC<NavbarProps>= ({setShowModal}) => {
   const infoUser = useAppSelector(({user})=> user.infoUser)
 
   const dispatch = useAppDispatch()
@@ -27,7 +31,7 @@ const Navbar: React.FC = () => {
     <div className={s.wrapper}>
       <div className={s.info_user}>
         <FaRegCircleUser className={s.logo}/>
-        <span className={s.login}>{infoUser!.login}</span>
+        <span className={s.login} onClick={()=> setShowModal(true)}>{infoUser!.login}</span>
         <span className={s.email}>{infoUser!.email}</span>
       </div>
       <nav className={s.nav}>
