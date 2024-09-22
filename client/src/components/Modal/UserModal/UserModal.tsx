@@ -27,11 +27,7 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
   const [validOldPassword, setValidOldPassword] = useState<boolean>(false)
   const [errorOldPassword, setErrorOldPassword] = useState<string>("")
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UserSettingsForm>({
+  const {register, handleSubmit, formState: { errors }} = useForm<UserSettingsForm>({
     defaultValues: {
       login: loginUser,
       oldPassword: "",
@@ -40,29 +36,35 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
   })
 
   const submitChangeData: SubmitHandler<UserSettingsForm> = (data) => {
-    console.log("data >> ", data)
-    if (data.oldPassword) {
-      axios
-        .post<VerifyPasswordResponse>(
-          "http://localhost:5000/user/password/verify",
-          { oldPassword: data.oldPassword }
-        )
-        .then(({ data }) => {
-          console.log(data.success)
-          setValidOldPassword(true)
-          setErrorOldPassword("")
-        })
-        .catch((err: AxiosError) => {
-          if (err.response) {
-            const errorData = err.response.data as { message: string }
-            console.log("err >> ", errorData.message)
-            setErrorOldPassword(errorData.message)
-          }
-        })
-      console.log("Измен пароль")
-    } else {
-      console.log("Только логин")
+    const newInfoUser: {newPassword?: string, login?: string} = {}
+
+    if(validOldPassword || data.newPassword){
+      newInfoUser.newPassword = data.newPassword
     }
+    if(data.login !== loginUser){
+      newInfoUser.login = data.login
+    }
+    console.log(newInfoUser)
+  }
+
+  const verifyOldPassword = (oldPassword: string) => {
+    axios
+    .post<VerifyPasswordResponse>(
+      "http://localhost:5000/user/password/verify",
+      { oldPassword}
+    )
+    .then(({ data }) => {
+      console.log(data.success)
+      setValidOldPassword(true)
+      setErrorOldPassword("")
+    })
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        const errorData = err.response.data as { message: string }
+        console.log("err >> ", errorData.message)
+        setErrorOldPassword(errorData.message)
+      }
+    })
   }
 
   return (
@@ -95,8 +97,11 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
                   className="inp"
                   type="password"
                   id="old_password"
-                  {...register("oldPassword")}
+                  {...register("oldPassword", {
+                    onBlur: (e)=>{verifyOldPassword(e.target.value)}
+                  })}
                   placeholder="старый пароль"
+                  
                 />
                 {errorOldPassword && (
                   <span className={`error ${s.modal_error}`}>
