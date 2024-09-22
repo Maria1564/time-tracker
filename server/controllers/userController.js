@@ -127,7 +127,6 @@ const updateInfoUser = async (req, res) => {
     const valuesUpdate = req.body
     
     if(valuesUpdate.login){
-        console.log('login')
         const result = await db.query(`SELECT id FROM Users WHERE users.login = $1`, [valuesUpdate.login])
         if(result.rows.length){
             return res.status(400).json({
@@ -140,8 +139,6 @@ const updateInfoUser = async (req, res) => {
     }
 
     if(valuesUpdate.password){
-        console.log('pass')
-
         const hashPassword = await bcrypt.hash(valuesUpdate.password, 7)
         data = await db.query(`UPDATE users SET hashpassword = $1 WHERE id = $2`, [hashPassword, idUser])
     }

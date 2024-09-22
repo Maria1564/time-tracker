@@ -60,15 +60,13 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
       "http://localhost:5000/user/password/verify",
       { oldPassword}
     )
-    .then(({ data }) => {
-      console.log(data.success)
+    .then(() => {
       setValidOldPassword(true)
       setErrorOldPassword("")
     })
     .catch((err: AxiosError) => {
       if (err.response) {
         const errorData = err.response.data as { message: string }
-        console.log("err >> ", errorData.message)
         setErrorOldPassword(errorData.message)
       }
     })
