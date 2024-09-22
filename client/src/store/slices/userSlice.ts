@@ -60,6 +60,20 @@ export const getInfoUser = createAsyncThunk<IUser, undefined, {rejectValue: stri
 )
 
 
+export const changeInfoUser = createAsyncThunk<Pick<IUser, "id"|"login">, {login? : string, password?: string}>(
+    "user/changeInfoUser",
+    async(valuesForm, {rejectWithValue}) => {
+        try{
+            const {data} = await axios.patch<Pick<IUser, "id"|"login">>("http://localhost:5000/user/account", valuesForm)
+
+            return data
+        }catch(err){
+            return rejectWithValue("Не удалось сохранить изменённые данные")
+        }
+    }
+)
+
+
 
 const initialState: UserState = {
     infoUser: null,
@@ -115,6 +129,23 @@ export const userSlice = createSlice({
                 state.loading = false
             })
             .addCase(getInfoUser.rejected, (state, action) => {
+                state.error = action.payload as string;
+                state.loading = false;
+            })
+
+            .addCase(changeInfoUser.pending,  (state)=>{
+                state.error = null
+                state.loading = true
+            })
+            .addCase(changeInfoUser.fulfilled, (state, action)=> {
+                if(action.payload.login){
+                    if(state.infoUser){
+                        state.infoUser.login = action.payload.login
+                    }
+                }
+                state.loading = false
+            })
+            .addCase(changeInfoUser.rejected, (state, action) => {
                 state.error = action.payload as string;
                 state.loading = false;
             })

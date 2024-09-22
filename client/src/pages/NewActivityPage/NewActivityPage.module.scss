@@ -1,7 +1,8 @@
+@use "@/scss/variables" as *;
 @import "../../scss/mixins";
 
 .new_activity {
-  background-color: var(--bg-secondary);
+  background-color: $bg-secondary;
   height: 100vh;
 }
 
@@ -9,14 +10,14 @@
   @include flex-column-elem;
   align-items: center;
   gap: 60px;
-  background-color: var(--bg-primary);
+  background-color: $bg-primary;
   width: 80%;
   border-radius: 10px;
   position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: var(--shadow-wrapper);
+  box-shadow: $shadow-wrapper;
   padding: 40px;
   min-height: 760px;
 }

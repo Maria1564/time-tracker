@@ -1,0 +1,54 @@
+@use "@/scss/variables" as *;
+
+.wrapper {
+  position: relative;
+  margin-left: 40px;
+
+  &:not(:last-child) {
+    margin-bottom: 65px;
+  }
+
+  .date {
+    position: absolute;
+    color: $color-primary;
+    top: -30px;
+    left: 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .circle {
+    content: "";
+    position: absolute;
+    top: -22px;
+    left: -48px;
+    width: 20px;
+    height: 20px;
+    background-color: $color-primary;
+    border-radius: 50%;
+  }
+
+  .card {
+    width: 60%;
+    height: auto;
+    background-color: $bg-primary;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 5px 0px #d3c4ea;
+    display: flex;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      margin-bottom: 15px;
+    }
+
+    .name {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .time {
+        color:  grey;
+    }
+  }
+}

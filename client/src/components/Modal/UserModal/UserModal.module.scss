@@ -1,0 +1,42 @@
+@import "@/scss/mixins";
+
+.info_user {
+  margin-top: 70px;
+  @include flex-column-elem;
+  align-items: center;
+  gap: 50px;
+
+  .logo {
+    width: 60px;
+    height: 60px;
+    color: #ae8dd1ec;
+  }
+
+  .btns {
+    display: flex;
+    gap: 20px;
+  }
+
+  .inputs_password {
+    @include flex-column-elem;
+    align-items: flex-end;
+    gap: 20px;
+  }
+
+  input {
+    margin-left: 10px;
+  }
+
+  .box_inp_old_pass,
+  .label_login,
+  .box_inp_new_pass {
+    position: relative;
+  }
+  .modal_error {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    width: max-content;
+  }
+}

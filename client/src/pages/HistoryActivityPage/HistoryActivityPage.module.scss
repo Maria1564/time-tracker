@@ -1,0 +1,52 @@
+@use "@/scss/variables" as *;
+@import "@/scss/_mixins.scss";
+
+.wrapper {
+  height: 100%;
+  padding: 30px;
+  position: relative;
+  padding-left: 40px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 80px;
+
+    h2 {
+      width: max-content;
+      margin: 0 auto;
+    }
+
+    .arrow_back {
+      width: 50px;
+      height: 50px;
+      fill: $color-primary;
+      cursor: pointer;
+      transition: transform 0.5s;
+
+      &:hover{
+        transform: translate(-15px);
+      }
+    }
+  }
+
+  .container {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: -22px;
+      content: "";
+      width: 4px;
+      height: 105%;
+      background-color: $color-primary;
+      border-radius: 10px;
+    }
+  }
+
+  .text {
+    @include center-block;
+    width: max-content;
+    color: bla;
+  }
+}

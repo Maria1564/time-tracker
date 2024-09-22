@@ -1,3 +1,5 @@
+@use "@/scss/variables" as *;
+
 .reg_pg {
     font-family: "Mulish", sans-serif;
     width: 100vw;
@@ -17,13 +19,13 @@
     padding: 40px;
     width: 70%;
     min-height: 200px;
-    background: var(--bg-primary);
+    background: $bg-primary;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    box-shadow: var(--shadow-wrapper);
+    box-shadow: $shadow-wrapper;
 
     & form {
         margin-top: 60px;
@@ -37,7 +39,7 @@
     }
 
     & > a {
-        color: var(--color-primary);
+        color: $color-primary;
         font-weight: 500;
         margin-top: 10px;
         font-size: 18px;

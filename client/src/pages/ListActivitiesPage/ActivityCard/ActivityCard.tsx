@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react"
 import s from "./ActivityCard.module.scss"
 import { IActivity, IColors } from "../../../interfaces"
-import { BsThreeDotsVertical } from "react-icons/bs"
+import { BsThreeDotsVertical, BsClockHistory } from "react-icons/bs"
 import ContextMenu from "../ContextMenu/ContextMenu"
 import Modal from "../../../components/Modal/Modal"
 import Button from "../../../components/Button/Button"
@@ -9,6 +9,7 @@ import { useAppDispatch } from "../../../hooks/hooksStore"
 import { editActivity } from "../../../store/slices/activitiesSlice"
 import axios from "../../../axios"
 import FormActivity from "../../../components/FormActivity/FormActivity"
+import { useNavigate } from "react-router-dom"
 
 type ActivityCardProps = {
   activity: IActivity
@@ -22,12 +23,13 @@ const ActivityCard: React.FC<ActivityCardProps> = React.memo(({ activity, setAct
   const [colors, setColors] = useState<IColors[]>([])
   const [selectIdColor, setSelectIdColor] = useState<number>(1)
   const [nameActivity, setNameActivity] = useState<string>(activity.nameActivity)
-  
+
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const handleClickOutside = (event: MouseEvent) => {
     const elem = event.target as Element
-    if (elem && !elem.closest(`.${s.options}`)) {
+    if (elem && !elem.closest(`.${s.three_dots}`)) {
       setActiveContextMenu(null)
     }
   }
@@ -77,6 +79,10 @@ const ActivityCard: React.FC<ActivityCardProps> = React.memo(({ activity, setAct
     setOpenModal(false)
   }
   
+  const redirectToHistoryPage = () => {
+    navigate(`./history/${activity.id}`)
+  }
+
   return (
     <>
       <div className={s.card}>
@@ -84,10 +90,10 @@ const ActivityCard: React.FC<ActivityCardProps> = React.memo(({ activity, setAct
           className={s.triangle}
           style={{ background: `${activity.hexcode}` }}
         ></div>
-        <BsThreeDotsVertical
-          className={s.options}
-          onClick={() => setActiveContextMenu(activity.id)}
-        />
+        <div className={s.options_icons}>
+          <BsThreeDotsVertical className={s.three_dots} onClick={() => setActiveContextMenu(activity.id)} />
+          <BsClockHistory className={s.icon_history} title="история активности" onClick={redirectToHistoryPage}/> 
+        </div>
         <h3>{activity.nameActivity}</h3>
         {showContextMenu && (
           <ContextMenu

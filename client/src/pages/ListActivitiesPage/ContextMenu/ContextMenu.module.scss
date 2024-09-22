@@ -1,8 +1,10 @@
+@use "@/scss/variables" as *;
+
 .menu {
     position: absolute;
     top: 51px;
     left: -8px;
-    background-color: var(--bg-primary);
+    background-color: $bg-primary;
     border-radius: 5px;
     box-shadow: 4px 1px 12px 1px #ccc4eab3;
     padding: 20px;
@@ -20,7 +22,7 @@
 
         &:hover a,
         &:hover .icon {
-            color: var(--color-primary);
+            color: $color-primary;
         }
         a {
             font-weight: 500;

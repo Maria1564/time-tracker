@@ -16,3 +16,8 @@ export interface IActivity {
     nameActivity: string,
     hexcode: string
 }
+
+export interface IActivityWithTime extends IActivity {
+    startTime: string, 
+    endTime: string
+}

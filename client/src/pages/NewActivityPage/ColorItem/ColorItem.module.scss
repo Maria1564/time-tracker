@@ -1,3 +1,4 @@
+@use "@/scss/variables" as *;
 @import "../../../scss/mixins";
 
 .wrapper_item {
@@ -14,7 +15,7 @@
     cursor: pointer;
 
     &.active {
-        border: 3px solid var(--color-primary);
+        border: 3px solid $color-primary;
     }
 }
 
@@ -23,6 +24,6 @@
     font-weight: 500;
     width: max-content;
     &.active{
-        color: var(--color-primary);
+        color: $color-primary;
     }
 }

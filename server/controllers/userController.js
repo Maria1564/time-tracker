@@ -95,8 +95,71 @@ const login = async(req, res) => {
     }
 }
 
+//Проверка старого пароля
+const verifyOldPassword = async(req, res)=>{
+    try{
+        const idUser = req.idUser
+        const oldPassword = req.body.oldPassword
+
+        passwordHash = (await db.query(`select hashpassword from users WHERE id = $1`, [idUser])).rows[0].hashpassword
+
+        const validPassword = await bcrypt.compare(oldPassword, passwordHash)
+        
+        if(!validPassword){
+            return res.status(400).json({
+                message: "Неверный пароль"
+            })
+        }
+
+        res.json({
+            success: true
+        })
+    }catch(err){
+
+    }
+}
+
+//Обновление данных о пользователе
+const updateInfoUser = async (req, res) => {
+   try {
+    const idUser = req.idUser
+    const allData = {id: idUser}
+    const valuesUpdate = req.body
+    
+    if(valuesUpdate.login){
+        console.log('login')
+        const result = await db.query(`SELECT id FROM Users WHERE users.login = $1`, [valuesUpdate.login])
+        if(result.rows.length){
+            return res.status(400).json({
+                message: "Такой логин  уже используется"
+            })
+        }else{
+            data = await db.query(`UPDATE users SET login = $1 WHERE id = $2 RETURNING login`, [valuesUpdate.login, idUser])
+            allData.login = data.rows[0].login
+        }
+    }
+
+    if(valuesUpdate.password){
+        console.log('pass')
+
+        const hashPassword = await bcrypt.hash(valuesUpdate.password, 7)
+        data = await db.query(`UPDATE users SET hashpassword = $1 WHERE id = $2`, [hashPassword, idUser])
+    }
+
+    res.json(allData)
+
+} catch (err) {
+    console.log(err.message)
+    res.status(400).json({
+        message: "Неверный логин или пароль"
+        })
+   }
+}
+
 module.exports = {
     getInfoUser,
     register,
-    login
+    login,
+    verifyOldPassword,
+    updateInfoUser
 }

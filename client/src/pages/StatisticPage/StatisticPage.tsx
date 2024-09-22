@@ -5,6 +5,8 @@ import { Doughnut } from "react-chartjs-2"
 import axios from "../../axios"
 import { IActivity } from "../../interfaces"
 import DailyActivities from "./DailyActivities/DailyActivities"
+import { formatDate } from "../../utils/helpers"
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -14,19 +16,48 @@ export type logActivities = Omit<IActivity, "id"> & { minutes: string, seconds: 
 const StatisticPage: React.FC = () => {
   const [listLogActivity, setListLogActivity] = useState<logActivities[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [date, setDate] = useState<Date>(new Date())
+  const [isToday, setIsToday] = useState<boolean>(true) 
 
   useEffect(() => {
     axios
       .get<logActivities[]>(
         "http://localhost:5000/activity-log",
-        // {params:{date: new Date().toLocaleDateString()}}
-        { params: { date: "17.08.2024" } }
+        {params:{date: new Date().toLocaleDateString()}}
+        // { params: { date: "17.08.2024" } }
       )
       .then(({ data }) => {
         setListLogActivity(data)
         setIsLoading(false)
       })
   }, [])
+
+  useEffect(()=>{
+    setIsToday(date.getDate() === new Date().getDate())
+
+    axios
+    .get<logActivities[]>(
+      "http://localhost:5000/activity-log",
+      { params: { date: date.toLocaleDateString() } }
+    )
+    .then(({ data }) => {
+      setListLogActivity(data)
+      setIsLoading(false)
+    })
+
+  }, [date])
+
+  //переключение даты
+  const toggleDate = (direction: "prev"|"next") => {
+    const newDate: Date = new Date(date)
+    if(direction === "prev") {
+      newDate.setDate(date.getDate() - 1) 
+    }else{
+      newDate.setDate(date.getDate() + 1) 
+    } 
+    setDate(newDate)
+  }
+
 
   const data = {
     labels: listLogActivity.map((log) => log.nameActivity),
@@ -42,16 +73,20 @@ const StatisticPage: React.FC = () => {
       },
     ],
   }
-  console.log(listLogActivity)
-  return (
+  return (  
     <>
       <div className={s.wrapper}>
-        {/* Дата  */}
+        <h2 className={s.title}>Статистика дня</h2>
+        <div className={s.date_switcher}>
+          
+          <FaArrowLeft className={`${s.icon_arrow_right} ${s.icon}`} onClick={()=>toggleDate("prev")}/>
+          <p className={s.date}>{formatDate(date)}</p>
+          {!isToday && <FaArrowRight  className={`${s.icon_arrow_left} ${s.icon}`} onClick={()=>toggleDate("next")}/>}
+        </div>
         {listLogActivity.length === 0 && isLoading === false ? (
-          <h1 className={s.text}>Пусто</h1>
+          <p className={s.text}>Нет активностей</p>
         ) : (
           <>
-            <h2 className={s.title}>Статистика дня</h2>
             <div className={s.doughnut}>
               <Doughnut
                 typeof="doughnut"
