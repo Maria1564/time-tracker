@@ -3,6 +3,8 @@ const cors = require("cors")
 const app = express()
 const PORT = 5000
 
+const fileUpload = require('express-fileupload');
+
 const userController = require("./controllers/userController.js")
 const colorsController = require("./controllers/colorsController")
 const activitiesController = require("./controllers/activitiesController.js")
@@ -13,6 +15,10 @@ const checkAuth = require("./middleware/checkAuth.js")
 
 app.use(cors())
 app.use(express.json())
+app.use(fileUpload())
+
+//загрузка аватарки пользователя
+app.post('/upload', checkAuth, userController.setUserAvatar)
 
 //пользователь
 app.get("/auth/me", checkAuth, userController.getInfoUser)

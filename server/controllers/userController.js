@@ -2,6 +2,8 @@ const db = require("../db.js")
 const bcrypt = require("bcrypt")
 const {validationResult} = require("express-validator")
 const jwt = require("jsonwebtoken")
+const path = require('path');
+
 
 //получение данных о пользователе
 const getInfoUser = async(req, res)=>{
@@ -153,10 +155,39 @@ const updateInfoUser = async (req, res) => {
    }
 }
 
+const setUserAvatar = async(req, res)=>{
+    try {
+         if (!req.files || Object.keys(req.files).length === 0) {
+             return res.status(400).send('Файлы не были загружены.');
+         }
+ 
+         const userAvatarFile = req.files.avatar
+ 
+         const uploadPath = path.join(__dirname, '..', 'uploads', userAvatarFile.name)
+         const dataUser = await db.query(`
+            UPDATE users set pathavatar = $1 WHERE id = $2 returning id, pathavatar`, [path.join('uploads', userAvatarFile.name), req.idUser])
+            
+            
+        userAvatarFile.mv(uploadPath, (err)=>{
+            if (err)
+                return res.status(500).send(err.message);
+        })
+
+        res.json({
+            id: dataUser.rows[0].id,
+            pathAvatar: dataUser.rows[0].pathavatar
+        })
+    } catch (error) {
+         console.log(error)
+         return res.status(500).send(error.message)
+    }    
+ }
+
 module.exports = {
     getInfoUser,
     register,
     login,
     verifyOldPassword,
-    updateInfoUser
+    updateInfoUser,
+    setUserAvatar
 }
