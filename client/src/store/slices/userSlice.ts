@@ -59,8 +59,8 @@ export const getInfoUser = createAsyncThunk<IUser, undefined, {rejectValue: stri
 
 )
 
-
-export const changeInfoUser = createAsyncThunk<Pick<IUser, "id"|"login">, {login? : string, password?: string}>(
+//изменение данных пользователя
+export const changeInfoUser = createAsyncThunk<Pick<IUser, "id"|"login">, {login? : string, password?: string}, {rejectValue: string}>(
     "user/changeInfoUser",
     async(valuesForm, {rejectWithValue}) => {
         try{
@@ -73,7 +73,23 @@ export const changeInfoUser = createAsyncThunk<Pick<IUser, "id"|"login">, {login
     }
 )
 
+//изменение аватарки пользователя
+export const updateUserAvatar = createAsyncThunk<Pick<IUser, "id"|"pathAvatar">, FormData, {rejectValue: string} >(
+    "user/updateUserAvatar",
+    async(formData, {rejectWithValue})=>{
+        try {
+            const {data} = await axios.post<Pick<IUser, "id"|"pathAvatar">>("http://localhost:5000/upload", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data"
+                }
+              })
 
+              return data
+        } catch (err) {
+            return rejectWithValue("Не удалось изменить аватарку")
+        }
+    }
+)
 
 const initialState: UserState = {
     infoUser: null,
@@ -148,6 +164,21 @@ export const userSlice = createSlice({
             .addCase(changeInfoUser.rejected, (state, action) => {
                 state.error = action.payload as string;
                 state.loading = false;
+            })
+
+            .addCase(updateUserAvatar.pending, (state)=>{
+                state.error = null
+                state.loading = true
+            })
+            .addCase(updateUserAvatar.fulfilled, (state, action)=>{
+                state.loading = false
+                if(state.infoUser){
+                    state.infoUser.pathAvatar = action.payload.pathAvatar
+                }
+            })
+            .addCase(updateUserAvatar.rejected, (state, action)=>{
+                state.loading = false
+                state.error = action.payload as string
             })
     }
 

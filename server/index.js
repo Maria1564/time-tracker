@@ -16,6 +16,7 @@ const checkAuth = require("./middleware/checkAuth.js")
 app.use(cors())
 app.use(express.json())
 app.use(fileUpload())
+app.use("/uploads", express.static("uploads"))
 
 //загрузка аватарки пользователя
 app.post('/upload', checkAuth, userController.setUserAvatar)

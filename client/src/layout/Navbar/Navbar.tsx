@@ -2,7 +2,7 @@ import s from "./Navbar.module.scss"
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksStore"
 import { FaRegCircleUser, FaPlus, FaChartPie, FaListUl} from "react-icons/fa6";
 import { AiOutlineLogin } from "react-icons/ai";
-
+import {REACT_APP_SERVER_URL} from "../../../config.ts"
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logOut } from "../../store/slices/userSlice";
 import { BiSolidHome } from "react-icons/bi";
@@ -26,11 +26,11 @@ const Navbar: React.FC<NavbarProps>= ({setShowModal}) => {
     dispatch(logOut({isAuth: false, infoUser: null}))
     navigate("login")
   }
-
+  console.log(infoUser?.pathAvatar)
   return (
     <div className={s.wrapper}>
       <div className={s.info_user}>
-        <FaRegCircleUser className={s.logo}/>
+       {infoUser?.pathAvatar ? <img src={`${REACT_APP_SERVER_URL}${infoUser.pathAvatar}`} alt="avatar" className={s.avatar}/> : <FaRegCircleUser className={s.logo}/>}
         <span className={s.login} onClick={()=> setShowModal(true)}>{infoUser!.login}</span>
         <span className={s.email}>{infoUser!.email}</span>
       </div>

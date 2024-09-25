@@ -8,11 +8,11 @@ const path = require('path');
 //получение данных о пользователе
 const getInfoUser = async(req, res)=>{
     try {
-        const dataUser = await db.query(`SELECT id, login, email FROM Users WHERE id = $1 `, 
+        const dataUser = await db.query(`SELECT id, login, email, pathAvatar FROM Users WHERE id = $1 `, 
             [req.idUser])
-        
+        const {pathavatar: pathAvatar, ...other} = dataUser.rows[0]
 
-        res.json(dataUser.rows[0])
+        res.json({...other, pathAvatar})
     } catch (error) {
         res.status(400).json("не удалось получить данные пользователя")  
     }
@@ -64,7 +64,7 @@ const login = async(req, res) => {
             return res.status(400).json({message: "Пользователь не найден"})
         }
 
-        const {hashpassword: passwordHash, ...infoUser} = user.rows[0]
+        const {hashpassword: passwordHash, pathavatar: pathAvatar, ...infoUser} = user.rows[0]
         const validPassword = await bcrypt.compare(password, passwordHash)
 
         if(!validPassword){
@@ -86,7 +86,8 @@ const login = async(req, res) => {
 
         res.json({
             ...infoUser,
-            token
+            token,
+            pathAvatar
         })
         
     }catch(err){
@@ -165,12 +166,11 @@ const setUserAvatar = async(req, res)=>{
  
          const uploadPath = path.join(__dirname, '..', 'uploads', userAvatarFile.name)
          const dataUser = await db.query(`
-            UPDATE users set pathavatar = $1 WHERE id = $2 returning id, pathavatar`, [path.join('uploads', userAvatarFile.name), req.idUser])
+            UPDATE users set pathavatar = $1 WHERE id = $2 returning id, pathavatar`, [`/uploads/${userAvatarFile.name}`, req.idUser])
             
             
         userAvatarFile.mv(uploadPath, (err)=>{
-            if (err)
-                return res.status(500).send(err.message);
+            if (err) return res.status(500).send(err.message);
         })
 
         res.json({

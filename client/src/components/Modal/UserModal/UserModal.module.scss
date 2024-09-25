@@ -1,3 +1,4 @@
+@use "@/scss/variables" as *;
 @import "@/scss/mixins";
 
 .info_user {
@@ -6,10 +7,24 @@
   align-items: center;
   gap: 50px;
 
-  .logo {
+  #avatar_input {
+    display: none;
+  }
+
+  .temporary_avatar {
     width: 60px;
     height: 60px;
     color: #ae8dd1ec;
+    cursor: pointer;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border: 3px solid $color-primary;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .btns {
@@ -28,7 +43,7 @@
   }
 
   .box_inp_old_pass,
-  .label_login,
+  .login,
   .box_inp_new_pass {
     position: relative;
   }

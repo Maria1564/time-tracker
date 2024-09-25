@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import Modal from "../Modal"
 import Button from "../../Button/Button"
 import s from "./UserModal.module.scss"
@@ -7,7 +7,8 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/hooksStore"
 import { SubmitHandler, useForm } from "react-hook-form"
 import axios from "@/axios"
 import { AxiosError } from "axios"
-import { changeInfoUser } from "@/store/slices/userSlice"
+import { changeInfoUser, updateUserAvatar } from "@/store/slices/userSlice"
+import { REACT_APP_SERVER_URL } from "../../../../config"
 
 type UserModalProps = {
   setShowModal: (status: boolean) => void
@@ -25,11 +26,18 @@ interface VerifyPasswordResponse {
 
 const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
   const loginUser = useAppSelector((state) => state.user.infoUser?.login)
+  const avatarUser = useAppSelector((state) => state.user.infoUser?.pathAvatar)
   const [validOldPassword, setValidOldPassword] = useState<boolean>(false)
   const [errorOldPassword, setErrorOldPassword] = useState<string>("")
+  const [avatar, setAvatar] = useState<File | null>(null)
   const dispatch = useAppDispatch()
+  const fileRef = useRef<HTMLImageElement | null>(null)
 
-  const {register, handleSubmit, formState: { errors }} = useForm<UserSettingsForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserSettingsForm>({
     defaultValues: {
       login: loginUser,
       oldPassword: "",
@@ -38,38 +46,56 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
   })
 
   const submitChangeData: SubmitHandler<UserSettingsForm> = (data) => {
-    const newInfoUser: {password?: string, login?: string} = {}
+    const newInfoUser: { password?: string; login?: string } = {}
 
-    if(validOldPassword || data.newPassword){
+    if (validOldPassword || data.newPassword) {
       newInfoUser.password = data.newPassword
     }
-    if(data.login !== loginUser){
+    if (data.login !== loginUser) {
       newInfoUser.login = data.login
     }
 
-    if(Object.keys(newInfoUser).length !== 0){
+    if (Object.keys(newInfoUser).length !== 0) {
       dispatch(changeInfoUser(newInfoUser))
       setShowModal(false)
     }
 
+    if (avatar) {
+      const formData = new FormData()
+      formData.append("avatar", avatar)
+      dispatch(updateUserAvatar(formData))
+      setShowModal(false)
+    }
   }
 
   const verifyOldPassword = (oldPassword: string) => {
     axios
-    .post<VerifyPasswordResponse>(
-      "http://localhost:5000/user/password/verify",
-      { oldPassword}
-    )
-    .then(() => {
-      setValidOldPassword(true)
-      setErrorOldPassword("")
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        const errorData = err.response.data as { message: string }
-        setErrorOldPassword(errorData.message)
+      .post<VerifyPasswordResponse>(
+        "http://localhost:5000/user/password/verify",
+        { oldPassword }
+      )
+      .then(() => {
+        setValidOldPassword(true)
+        setErrorOldPassword("")
+      })
+      .catch((err: AxiosError) => {
+        if (err.response) {
+          const errorData = err.response.data as { message: string }
+          setErrorOldPassword(errorData.message)
+        }
+      })
+  }
+
+  //изменение аватарки
+  const handleChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      if (e.target.files.length === 0) return
+      const selectFile = e.target.files[0]
+      setAvatar(selectFile)
+      if (fileRef.current) {
+        fileRef.current.src = URL.createObjectURL(selectFile) //временная ссылка на изображение
       }
-    })
+    }
   }
 
   return (
@@ -77,8 +103,32 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
       <h2 className="title">Профиль</h2>
       <form action="" onSubmit={handleSubmit(submitChangeData)}>
         <div className={s.info_user}>
-          <FaRegCircleUser className={s.logo} />
-          <div className={s.label_login}>
+          <div className={s.box_avatar}>
+            <input
+              type="file"
+              accept=".png, .jpg, .jpeg, .webp"
+              name="avatar"
+              id={s.avatar_input}
+              onChange={(e) => handleChangeAvatar(e)}
+            />
+            <label htmlFor={s.avatar_input}>
+              {avatarUser || avatar ? (
+                <img
+                  src={
+                    avatarUser
+                      ? `${REACT_APP_SERVER_URL}${avatarUser}`
+                      : URL.createObjectURL(avatar as File)
+                  }
+                  alt="avatar"
+                  className={s.avatar}
+                  ref={fileRef}
+                />
+              ) : (
+                <FaRegCircleUser className={s.temporary_avatar} />
+              )}
+            </label>
+          </div>
+          <div className={s.login}>
             <label htmlFor="">
               Логин:
               <input
@@ -103,10 +153,11 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
                   type="password"
                   id="old_password"
                   {...register("oldPassword", {
-                    onBlur: (e)=>{verifyOldPassword(e.target.value)}
+                    onBlur: (e) => {
+                      verifyOldPassword(e.target.value)
+                    },
                   })}
                   placeholder="старый пароль"
-                  
                 />
                 {errorOldPassword && (
                   <span className={`error ${s.modal_error}`}>

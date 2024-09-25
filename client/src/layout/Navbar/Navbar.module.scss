@@ -16,13 +16,23 @@
   margin-left: 32px;
   width: max-content;
   
-  svg {
+  svg,
+  .avatar {
     width: 50px;
     height: 50px;
     color:  $color-primary;
     margin-bottom: 8px;
   }
   
+  .avatar {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border: 2px solid $color-primary;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
   span.login {
     font-size: 28px;
     font-weight: 700;
