@@ -9,10 +9,7 @@ import axios from "@/axios"
 import { AxiosError } from "axios"
 import { changeInfoUser, updateUserAvatar } from "@/store/slices/userSlice"
 import { REACT_APP_SERVER_URL } from "../../../../config"
-
-type UserModalProps = {
-  setShowModal: (status: boolean) => void
-}
+import { useModal } from "@/hooks/customHooks"
 
 type UserSettingsForm = {
   login: string
@@ -24,7 +21,7 @@ interface VerifyPasswordResponse {
   success: boolean
 }
 
-const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
+const UserModal: React.FC = () => {
   const loginUser = useAppSelector((state) => state.user.infoUser?.login)
   const avatarUser = useAppSelector((state) => state.user.infoUser?.pathAvatar)
   const [validOldPassword, setValidOldPassword] = useState<boolean>(false)
@@ -33,11 +30,13 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
   const dispatch = useAppDispatch()
   const fileRef = useRef<HTMLImageElement | null>(null)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UserSettingsForm>({
+  const modalContext  = useModal()
+
+  if(!modalContext) throw new Error("Navbar должен использоваться внутри UserModalProvider")
+    
+  const {closeModal} = modalContext
+
+  const {register, handleSubmit, formState: { errors } } = useForm<UserSettingsForm>({
     defaultValues: {
       login: loginUser,
       oldPassword: "",
@@ -57,14 +56,14 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
 
     if (Object.keys(newInfoUser).length !== 0) {
       dispatch(changeInfoUser(newInfoUser))
-      setShowModal(false)
+      closeModal()
     }
 
     if (avatar) {
       const formData = new FormData()
       formData.append("avatar", avatar)
       dispatch(updateUserAvatar(formData))
-      setShowModal(false)
+      closeModal()
     }
   }
 
@@ -184,7 +183,7 @@ const UserModal: React.FC<UserModalProps> = ({ setShowModal }) => {
             )}
           </div>
           <div className={s.btns}>
-            <Button className="btn_lite" onClick={() => setShowModal(false)}>
+            <Button className="btn_lite" onClick={() => closeModal()}>
               Отмена
             </Button>
             <Button type="submit">Сохранить</Button>

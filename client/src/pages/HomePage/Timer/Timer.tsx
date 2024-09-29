@@ -14,7 +14,7 @@ type TimerProps = {
 
 const Timer:React.FC<TimerProps> = ({currentActivity, setIsModalOpen}) => {
     const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString())
-    const timetRef = useRef<number | null>(null)
+    const timetRef = useRef<NodeJS.Timeout | null>(null)
     const idActivity = currentActivity.id
 
     const {

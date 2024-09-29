@@ -4,7 +4,7 @@ import RegistrationPage from "./pages/RegistrationPage/RegistrationPage"
 import LoginPage from "./pages/LoginPage/LoginPage"
 import Layout from "./layout/Layout"
 import { useAppDispatch, useAppSelector } from "./hooks/hooksStore"
-import { useEffect, useState } from "react"
+import { useEffect} from "react"
 import { getInfoUser } from "./store/slices/userSlice"
 import PrivateRoute from "./utils/router/PrivateRoute"
 import NewActivityPage from "./pages/NewActivityPage/NewActivityPage"
@@ -14,13 +14,19 @@ import HomePage from "./pages/HomePage/HomePage"
 import HistoryActivityPage from "./pages/HistoryActivityPage/HistoryActivityPage"
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage"
 import UserModal from "./components/Modal/UserModal/UserModal"
+import { useModal } from "./hooks/customHooks"
 
 
 const App = () => {
   const isAuth = useAppSelector(state => state.user.isAuth)
   const loading = useAppSelector(state => state.user.loading)
-  const [showModal, setShowModal] = useState<boolean>(false)
+  
+  const modalContext  = useModal()
 
+  if(!modalContext) throw new Error("Navbar должен использоваться внутри UserModalProvider")
+
+  const {showModal} = modalContext
+    
   console.log(isAuth)
   const dispatch = useAppDispatch()
 
@@ -38,7 +44,7 @@ const App = () => {
     <>
       <Routes>
         <Route element={<PrivateRoute isAuth={isAuth}/>}>
-          <Route path="/" element={<Layout setShowModal={setShowModal}/>}>
+          <Route path="/" element={<Layout/>}>
             <Route index  element={<HomePage/>}/>
             <Route  path="new-activity" element={<NewActivityPage/>}/>
             <Route  path="statistic" element={<StatisticPage/>}/>
@@ -53,8 +59,7 @@ const App = () => {
       
         
       </Routes>
-      {showModal && <UserModal setShowModal={setShowModal}/>}
-      
+      {showModal && <UserModal/>}
     </>
   )
 }
