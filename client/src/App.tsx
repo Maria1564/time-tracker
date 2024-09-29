@@ -27,7 +27,7 @@ const App = () => {
 
   const {showModal} = modalContext
     
-  console.log(isAuth)
+  // console.log(isAuth)
   const dispatch = useAppDispatch()
 
   useEffect(()=>{
