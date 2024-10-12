@@ -104,8 +104,8 @@ const Timer:React.FC<TimerProps> = ({currentActivity, setIsModalOpen}) => {
         <span className={s.name}>{currentActivity.nameActivity}</span>   
         <div className={s.control_buttons}>
             {isRunning ? 
-            <Button  className='btn_lite' style={{padding:`20px 45px`} } onClick={pauseTimer} ><TiMediaPause /></Button> : 
-            <Button  className='btn_lite' style={{padding:`20px 45px`} } onClick={startTimer} ><TiMediaPlay /></Button> }
+            <Button secondary style={{padding:`20px 45px`} } onClick={pauseTimer} ><TiMediaPause /></Button> : 
+            <Button secondary style={{padding:`20px 45px`} } onClick={startTimer} ><TiMediaPlay /></Button> }
             <Button style={{padding:`20px 45px`}} onClick={resetTimer}><TiMediaStop /></Button>
         </div>
     </>

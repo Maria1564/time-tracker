@@ -117,7 +117,7 @@ const ActivityCard: React.FC<ActivityCardProps> = React.memo(({ activity, setAct
             customStyle={{position: "static", transform:"none", padding: 0, boxShadow: "none", width: "90%"}}
           >
             <div className={s.btns}>
-                <Button className="btn_lite" type="button" onClick={handleCloseModal}>
+                <Button secondary type="button" onClick={handleCloseModal}>
                   Отмена
                 </Button>
                 <Button type="submit">Ок</Button>

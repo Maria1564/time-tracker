@@ -183,7 +183,7 @@ const UserModal: React.FC = () => {
             )}
           </div>
           <div className={s.btns}>
-            <Button className="btn_lite" onClick={() => closeModal()}>
+            <Button secondary onClick={() => closeModal()}>
               Отмена
             </Button>
             <Button type="submit">Сохранить</Button>
