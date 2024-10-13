@@ -1,7 +1,7 @@
 import React from 'react'
 import s from "./DailyActivities.module.scss"
-import { logActivities } from '../StatisticPage'
 import ActivityEntry from './ActivityEntry/ActivityEntry'
+import { logActivities } from '@/interfaces'
 
 type DailyActivitiesProps = {
   listActivities: logActivities[]

@@ -1,0 +1,49 @@
+@use "@/scss/variables" as *;
+@import "@/scss/mixins";
+
+.title {
+  color: $color-primary;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.doughnut {
+  width: 600px;
+  margin: 0 auto;
+}
+
+
+
+.date_switcher {
+  width: max-content;
+  margin: 60px auto 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  color: $color-dark-pink;
+
+  .icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.4s;
+  }
+
+  .icon:hover {
+    transform: scale(1.2);
+  }
+
+  .date {
+    font-size: 28px;
+    font-weight: 500;
+  }
+}
+
+.text {
+  margin: 100px auto;
+  width: max-content;
+  color: $color-primary;
+  font-size: 28px;
+  font-weight: 500;
+}

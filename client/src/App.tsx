@@ -16,11 +16,13 @@ const StatisticPage = lazy(()=>import( "./pages/StatisticPage/StatisticPage"))
 const ListActivitiesPage = lazy(()=>import("./pages/ListActivitiesPage/ListActivitiesPage"))
 const HistoryActivityPage = lazy(()=>import("./pages/HistoryActivityPage/HistoryActivityPage"))
 const NotFoundPage = lazy(()=>import("./pages/NotFoundPage/NotFoundPage"))
+const DayStatistic = lazy(()=>import("./pages//StatisticPage/DayStatistic/DayStatistic"))
+const WeekStatistic = lazy(()=>import("./pages//StatisticPage/WeekStatistic/WeekStatistic"))
 
 const App = () => {
   const isAuth = useAppSelector(state => state.user.isAuth)
   // const loading = useAppSelector(state => state.user.loading)
-  
+  console.log("app")
   const modalContext  = useModal()
 
   if(!modalContext) throw new Error("Navbar должен использоваться внутри UserModalProvider")
@@ -43,7 +45,10 @@ const App = () => {
           <Route path="/" element={<Layout/>}>
             <Route index  element={<HomePage/>}/>
             <Route  path="new-activity" element={<NewActivityPage/>}/>
-            <Route  path="statistic" element={<StatisticPage/>}/>
+            <Route  path="statistic/" element={<StatisticPage/>}>
+              <Route path="day" element={<DayStatistic/>}/>
+              <Route path="week" element={<WeekStatistic/>}/>
+            </Route>
             <Route  path="activity-list" element={<ListActivitiesPage/>}/>
             <Route  path="activity-list/history/:id" element={<HistoryActivityPage/>}/>
             <Route  path="*" element={<NotFoundPage/>}/>

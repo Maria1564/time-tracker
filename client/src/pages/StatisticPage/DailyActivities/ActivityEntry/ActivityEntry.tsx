@@ -1,7 +1,7 @@
 import React from 'react'
-import { logActivities } from '../../StatisticPage'
 import s from "../../../HomePage/ActivityCard/ActivityCard.module.scss"
 import s_main from"./ActivityEntry.module.scss"
+import { logActivities } from '@/interfaces'
 
 type ActivityEntryProps = {
   activity: logActivities

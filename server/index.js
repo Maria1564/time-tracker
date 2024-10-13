@@ -40,6 +40,7 @@ app.delete("/activities/:id",checkAuth, activitiesController.deleteActivity)
 //данные обо всех активностях
 app.get("/activity-log", checkAuth, listActivitiesController.getLogUserActivities)
 app.post("/activity-log", checkAuth, listActivitiesController.saveActivityData)
+app.get("/activity-log/week", checkAuth, listActivitiesController.getWeekLogUserActivities)
 
 //данные одной активности
 app.get("/activity/history/:idAct", checkAuth, listActivitiesController.getHistoryActivity)

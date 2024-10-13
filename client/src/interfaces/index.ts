@@ -22,3 +22,12 @@ export interface IActivityWithTime extends IActivity {
     startTime: string, 
     endTime: string
 }
+
+export type logActivities = Omit<IActivity, "id"> & { minutes: string|number, seconds: string|number }
+
+export interface IDataActivities {
+    [key: string]: {
+      color?: string
+      week?: Array<{[key: string]: {minutes: number | string, seconds: number| string}}>
+    }
+  }

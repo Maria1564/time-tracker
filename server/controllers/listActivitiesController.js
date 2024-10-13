@@ -45,6 +45,56 @@ const getLogUserActivities = async(req, res) => {
     }
 }
 
+//получение информации обо всех активностях за неделю
+const getWeekLogUserActivities = async(req, res) => {
+    try{
+        const logActivitiesDay = await db.query(
+        `WITH week_dates AS (
+        SELECT 
+            DATE_TRUNC('week', TO_DATE('2024', 'YYYY') + INTERVAL '1 week' * ($1 - 1)) AS week_start,
+            DATE_TRUNC('week', TO_DATE('2024', 'YYYY') + INTERVAL '1 week' * $1) - INTERVAL '1 second' AS week_end
+            )
+        SELECT 
+            TO_CHAR(starttime, 'Day') AS dayOfWeek,
+            nameActivity, 
+            ROUND(SUM(EXTRACT(EPOCH FROM (endtime - starttime)))) AS secondsDiff,
+            hexcode
+        FROM 
+            activitytracking, 
+            useractivities,
+            week_dates,
+            colors
+        WHERE 
+            activitytracking.idActivity = useractivities.id 
+            AND colors.id = useractivities.idColor
+            AND activitytracking.iduser = $2
+            AND starttime >= week_start
+            AND starttime <= week_end
+        GROUP BY 
+            dayOfWeek, 
+            nameActivity,
+            hexcode
+        ORDER BY 
+            dayOfWeek DESC;`,
+            [req.query.numWeek, req.idUser])
+
+            const updateLogActivitiesDay = logActivitiesDay.rows.map(log => ({
+                dayWeek:log.dayofweek.trim(),
+                nameActivity: log.nameactivity,
+                hexcode: log.hexcode,
+                minutes:Math.floor( log.secondsdiff / 60),
+                seconds: log.secondsdiff % 60
+            }));
+            
+            res.json(updateLogActivitiesDay)
+    }catch(err){
+        console.log(err)
+        res.status(400).json({
+            message: "Не удалось получить информацию об активностях за день"
+        })
+    }
+}
+
 //получение истории выбранной активности
 const getHistoryActivity = async(req, res) => {
     try{
@@ -98,5 +148,6 @@ module.exports = {
     saveActivityData,
     getLogUserActivities,
     getHistoryActivity,
+    getWeekLogUserActivities,
     getTopActivity
 }

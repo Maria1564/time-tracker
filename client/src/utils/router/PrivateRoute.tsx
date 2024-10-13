@@ -6,6 +6,7 @@ type PrivRouteProps = {
 }
 
 const PrivateRoute: React.FC<PrivRouteProps> = ({isAuth}) => {
+  console.log("auth >> ", isAuth)
   return isAuth ? <Outlet/> : <Navigate to="login"/>
   
 }
