@@ -18,5 +18,29 @@
     height: 100%;
     padding: 0;
   }
+
+  .nav {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 50px;
+    margin-left: 60px;
+  }
+
+  a {
+    position: relative;
+  }
+
+  .active_link {
+    &::after{
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      background-color: $color-primary;
+      bottom: -4px;
+      left: 0;
+    }
+  }
 }
 

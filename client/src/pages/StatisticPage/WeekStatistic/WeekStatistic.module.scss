@@ -1,0 +1,16 @@
+@use "@/scss/variables" as *;
+
+.title {
+  color: $color-primary;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.date_interval {
+    margin: 0 auto;
+    display: block;
+    width: max-content;
+    margin-bottom: 40px;
+    font-size: 28px;
+    font-weight: 500;
+}

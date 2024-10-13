@@ -12,7 +12,8 @@ import {
   } from 'chart.js';
 import { groupActivitiesByWeek } from '@/utils/helpers';
 import { IDataActivities } from '@/interfaces';
-import {getISOWeek, subWeeks} from "date-fns"
+import {getISOWeek, subWeeks, startOfISOWeek, endOfISOWeek} from "date-fns"
+import s from "./WeekStatistic.module.scss"
 
   ChartJS.register(
     CategoryScale,  
@@ -27,6 +28,8 @@ import {getISOWeek, subWeeks} from "date-fns"
 const WeekStatistic: React.FC = () => {
     const [dataWeek, setDataWeek] = useState<IDataActivities>({})
     const [numberWeek,  setNumberWeek] = useState<number>(getISOWeek(new Date()))
+    const [date, setDate] = useState<{startDate: string, endDate: string}>
+    ({startDate: startOfISOWeek(new Date()).toLocaleDateString(), endDate: endOfISOWeek(new Date()).toLocaleDateString()})
     useEffect(()=>{
         axios.get("http://localhost:5000/activity-log/week",
           {
@@ -53,7 +56,6 @@ const WeekStatistic: React.FC = () => {
            backgroundColor: dataWeek[activity].color    
        }
     });
-    console.log(dataWeek)
     const data =  {
        
         labels: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
@@ -68,6 +70,8 @@ const WeekStatistic: React.FC = () => {
       };
   return (
     <>
+    <h2 className={s.title}>Статистика недели</h2>
+    <span className={s.date_interval}>{date.startDate} - {date.endDate}</span>
     <Bar typeof = "bar" data= {data} />
     </>
   )
